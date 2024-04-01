@@ -1,8 +1,10 @@
 package swing_sub_class;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class Canvas extends JPanel{
-
+    public Canvas(){
+        super();
+    }
     
 }

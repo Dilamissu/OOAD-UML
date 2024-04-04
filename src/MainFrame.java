@@ -1,22 +1,14 @@
 import javax.swing.*;
-
-import swing_sub_class.CanvasListener;
+import swing_sub_class.*;
+import swing_sub_class.Canvas;
 
 import java.awt.*;
 
-enum Tool{
-    SELECT,
-    ASSOCIATION,
-    GENERALIZATION,
-    COMPOSITION,
-    CLASS,
-    USE_CASE
-}
-
 
 public class MainFrame extends JFrame{
-    public Tool currentTool = Tool.SELECT;
     int ToolNumber = 6;
+    Canvas canvas = new Canvas();
+    CanvasListener canvasListener = new CanvasListener();
 
     // Toolbar components
     private void addToolbarComponents(Container toolbarPanel){
@@ -49,38 +41,32 @@ public class MainFrame extends JFrame{
          */
         JButton selectButton = HelperMethods.createButton("Select",true);
         selectButton.addActionListener(e -> {
-            currentTool = Tool.SELECT;
-            System.out.println("Select button clicked");
+            canvasListener.setToolType(ToolType.SELECT);
         });
 
         JButton associationButton = HelperMethods.createButton("Association",true);
         associationButton.addActionListener(e -> {
-            currentTool = Tool.ASSOCIATION;
-            System.out.println("Association button clicked");
+            canvasListener.setToolType(ToolType.ASSOCIATION);
         });
 
         JButton generalizationButton = HelperMethods.createButton("Generalization",true);
         generalizationButton.addActionListener(e -> {
-            currentTool = Tool.GENERALIZATION;
-            System.out.println("Generalization button clicked");
+            canvasListener.setToolType(ToolType.GENERALIZATION);
         });
 
         JButton compositionButton = HelperMethods.createButton("Composition",true);
         compositionButton.addActionListener(e -> {
-            currentTool = Tool.COMPOSITION;
-            System.out.println("Composition button clicked");
+            canvasListener.setToolType(ToolType.COMPOSITION);
         }); 
 
         JButton classButton = HelperMethods.createButton("Class",true);
         classButton.addActionListener(e -> {
-            currentTool = Tool.CLASS;
-            System.out.println("Class button clicked");
+            canvasListener.setToolType(ToolType.CLASS);
         });
 
         JButton useCaseButton = HelperMethods.createButton("Use Case",true);
         useCaseButton.addActionListener(e -> {
-            currentTool = Tool.USE_CASE;
-            System.out.println("Use Case button clicked");
+            canvasListener.setToolType(ToolType.USECASE);
         });
 
         selectionPanel.add(selectButton);
@@ -93,12 +79,10 @@ public class MainFrame extends JFrame{
     }
 
     private void addCanvasComponents(Container canvasPanel){
-        Canvas canvas = new Canvas();
-        canvas.addMouseListener(new CanvasListener());
-        canvasPanel.addMouseListener(new CanvasListener());
+        canvas.addMouseListener(canvasListener);
+        canvasPanel.addMouseListener(canvasListener);
         canvasPanel.add(canvas);
     }
-
     public MainFrame(){
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(Color.white);

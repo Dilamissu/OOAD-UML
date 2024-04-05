@@ -1,6 +1,8 @@
 package function_graphic;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import function_graphic.base_graphics.UMLLine;
 import function_graphic.base_graphics.UMLObject;
 
@@ -11,7 +13,8 @@ public class Composition extends UMLLine{
     
     @Override
     public void draw(Graphics g) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'draw'");
+        Graphics2D g2 = (Graphics2D) g;
+        g2.drawLine(stratX, startY, endX, endY);
+        // TODO add arrow
     }
 }

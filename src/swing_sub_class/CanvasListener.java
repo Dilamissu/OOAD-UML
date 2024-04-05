@@ -2,6 +2,7 @@ package swing_sub_class;
 
 import java.awt.Rectangle;
 import java.awt.event.MouseListener;
+import java.awt.geom.Point2D;
 
 import function_graphic.*;
 import function_graphic.Class;
@@ -65,41 +66,44 @@ public class CanvasListener implements MouseListener{
         }
 
         switch (toolType) {
+            case SELECT:
+                // TODO: select multiple shapes
+                break;
             case ASSOCIATION:
                 canvas.selectSingleShape(pressedX, presedY);
                 UMLObject from = canvas.getSelectedShape();
-                Rectangle fromRect = from.selectPoint(pressedX, presedY);
+                Point2D fromPoint2d = from.selectPoint(pressedX, presedY);
                 
                 canvas.selectSingleShape(releasedX, releasedY);
                 UMLObject to = canvas.getSelectedShape();
-                Rectangle toRect = to.selectPoint(releasedX, releasedY);
-                canvas.addLine(new Association((int)fromRect.getCenterX(), (int)fromRect.getCenterY(), (int)toRect.getCenterX(), (int)toRect.getCenterY(), from, to));
-                break;
+                Point2D toPoint2d = to.selectPoint(releasedX, releasedY);
+                canvas.addLine(new Association((int)fromPoint2d.getX(), (int)fromPoint2d.getY(), (int)toPoint2d.getX(), (int)toPoint2d.getY(), from, to));
+                // break;
             case GENERALIZATION:
                 canvas.selectSingleShape(pressedX, presedY);
                 from = canvas.getSelectedShape();
-                fromRect = from.selectPoint(pressedX, presedY);
+                fromPoint2d = from.selectPoint(pressedX, presedY);
 
                 canvas.selectSingleShape(releasedX, releasedY);
                 to = canvas.getSelectedShape();
-                toRect = to.selectPoint(releasedX, releasedY);
+                toPoint2d = to.selectPoint(releasedX, releasedY);
 
-                canvas.addLine(new Generalization((int)fromRect.getCenterX(), (int)fromRect.getCenterY(), (int)toRect.getCenterX(), (int)toRect.getCenterY(), from, to));
-                break;
+                canvas.addLine(new Generalization((int)fromPoint2d.getX(), (int)fromPoint2d.getY(), (int)toPoint2d.getX(), (int)toPoint2d.getY(), from, to));
+                // break;
             case COMPOSITION:
                 canvas.selectSingleShape(pressedX, presedY);
                 from = canvas.getSelectedShape();
-                fromRect = from.selectPoint(pressedX, presedY);
+                fromPoint2d = from.selectPoint(pressedX, presedY);
 
                 canvas.selectSingleShape(releasedX, releasedY);
                 to = canvas.getSelectedShape();
-                toRect = to.selectPoint(releasedX, releasedY);
+                toPoint2d = to.selectPoint(releasedX, releasedY);
             
-                canvas.addLine(new Composition((int)fromRect.getCenterX(), (int)fromRect.getCenterY(), (int)toRect.getCenterX(), (int)toRect.getCenterY(), from, to));
-                break;
+                canvas.addLine(new Composition((int)fromPoint2d.getX(), (int)fromPoint2d.getY(), (int)toPoint2d.getX(), (int)toPoint2d.getY(), from, to));
+                // break;
             default:
-                System.out.println("Tool type not supported.");
-                break;
+                canvas.unselectAllShape();
+                break;           
         }
     }
 

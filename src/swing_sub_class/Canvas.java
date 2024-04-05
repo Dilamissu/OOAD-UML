@@ -71,6 +71,26 @@ public class Canvas extends JPanel{
         return selectedShape;
     }
 
+    public void moveSelectedShape(int deltaX, int deltaY){
+        if(selectedShape == null){
+            System.out.println("No shape selected.");
+            return;
+        }
+        selectedShape.move(deltaX, deltaY);
+        this.repaint();
+        this.revalidate();
+    }
+
+    public void unselectAllShape(){
+        for(UMLObject shape: umlObjects){
+            if (shape.isSelected()) {
+                shape.unselect();
+            }
+        }
+        this.repaint();
+        this.revalidate();
+    }
+
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);

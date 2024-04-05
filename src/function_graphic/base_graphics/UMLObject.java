@@ -1,6 +1,7 @@
 package function_graphic.base_graphics;
 
 import java.awt.Rectangle;
+import java.awt.geom.Point2D;
 import java.util.*;
 
 public abstract class UMLObject implements Selectable, FuntionGraphic{
@@ -62,20 +63,26 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
     }
 
     // Already make sure contain the point
-    public Rectangle selectPoint(int x,int y) {
+    public Point2D selectPoint(int x,int y) {
         double deltaX = x - leftX;
         double deltaY = y - leftY;
-        if(height/width > deltaY/deltaX){
-            if(height/(-width) > deltaY/deltaX){
-                return upRect;
+        System.out.println("deltaX: " + deltaX + " deltaY: " + deltaY);
+        System.out.println("width: " + width + " height: " + height);
+        System.out.println("deltaY/deltaX: " + deltaY/deltaX);
+        System.out.println("height/width: " + height/width);
+        if(deltaY/deltaX > height/width){
+            // Down or left
+            if((deltaY - height)/deltaX < -height/width){
+                return new Point2D.Double(leftX, leftY + height / 2);
             }else{
-                return rightRect;
+                return new Point2D.Double(leftX + width / 2, leftY + height);
             }
         }else{
-            if(height/(-width) > deltaY/deltaX){
-                return leftRect;
+            // Up or right
+            if((deltaY - height)/deltaX < -height/width){
+                return new Point2D.Double(leftX + width / 2, leftY);
             }else{
-                return downRect;
+                return new Point2D.Double(leftX + width, leftY + height / 2);
             }
         }
     }
@@ -100,6 +107,9 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
     }
     public String getName(){
         return name;
+    }
+    public boolean isSelected(){
+        return selected;
     }
 
     public void setLeftX(int leftX) {

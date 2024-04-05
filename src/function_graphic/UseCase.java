@@ -1,15 +1,23 @@
 package function_graphic;
 
 import java.awt.Graphics;
+import java.awt.geom.Ellipse2D;
 
 import function_graphic.base_graphics.UMLObject;
 
 public class UseCase extends UMLObject{
+    Ellipse2D ellipse2d;
+
     public UseCase(){
         super();
     }
     public UseCase(int leftX, int leftY){
         super(leftX, leftY);
+        ellipse2d = new Ellipse2D.Double(super.leftX, super.leftY, super.width, super.height);
+    }
+    public UseCase(int leftX, int leftY, int depth){
+        super(leftX, leftY, depth);
+        ellipse2d = new Ellipse2D.Double(super.leftX, super.leftY, super.width, super.height);
     }
 
     @Override
@@ -43,6 +51,11 @@ public class UseCase extends UMLObject{
     @Override
     public void draw(Graphics g) {
         g.drawOval(leftX, leftY, width, height);
+    }
+
+    @Override
+    public boolean isXYInside(int x, int y) {
+        return Math.pow(x - leftX, 2) + Math.pow(y - leftY, 2) <= Math.pow(width, 2);
     }
     
 }

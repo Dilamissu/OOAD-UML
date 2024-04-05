@@ -7,8 +7,9 @@ import java.awt.*;
 
 public class MainFrame extends JFrame{
     int ToolNumber = 6;
+    int windowWidth = 800, windowHeight = 600;
     Canvas canvas = new Canvas();
-    CanvasListener canvasListener = new CanvasListener();
+    CanvasListener canvasListener = new CanvasListener(canvas);
 
     // Toolbar components
     private void addToolbarComponents(Container toolbarPanel){
@@ -79,40 +80,42 @@ public class MainFrame extends JFrame{
     }
 
     private void addCanvasComponents(Container canvasPanel){
+        canvas.setBackground(Color.green);
         canvas.addMouseListener(canvasListener);
         canvasPanel.addMouseListener(canvasListener);
         canvasPanel.add(canvas);
     }
     public MainFrame(){
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(Color.white);
 
         JPanel toolbarPanel = new JPanel();
         toolbarPanel.setLayout(new BoxLayout(toolbarPanel,BoxLayout.X_AXIS));
         toolbarPanel.setBackground(new Color(204, 204, 204));
+        addToolbarComponents(toolbarPanel);
 
         JPanel selectionPanel = new JPanel();
         // set to the number of buttons
         selectionPanel.setLayout(new GridLayout(ToolNumber, 1));
         selectionPanel.setBackground(new Color(204, 204, 204));
+        // selectionPanel.setPreferredSize(new Dimension(150, windowHeight));
+        addSelectionComponents(selectionPanel);
 
         JPanel canvasPanel = new JPanel();
-        canvasPanel.setLayout(new BoxLayout(canvasPanel,BoxLayout.X_AXIS));
+        canvasPanel.setLayout(new BoxLayout(canvasPanel, BoxLayout.X_AXIS));
         canvasPanel.setBackground(Color.white);
-        canvasPanel.setPreferredSize(new Dimension(getMaximumSize().width-selectionPanel.getSize().width, getMaximumSize().height-toolbarPanel.getSize().height));
-
-        setTitle("UML Editor");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        addToolbarComponents(toolbarPanel);
-        addSelectionComponents(selectionPanel);
+        canvasPanel.setPreferredSize(new Dimension(windowWidth - selectionPanel.getPreferredSize().width - 16, windowHeight - toolbarPanel.getHeight()));
         addCanvasComponents(canvasPanel);
 
-        add(toolbarPanel, BorderLayout.NORTH);
+        // print the size of the selection panel and its components
+        System.out.println(selectionPanel.getPreferredSize() + " " + selectionPanel.getComponentCount());
+
+        setTitle("UML Editor");
+        setSize(windowWidth, windowHeight);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         add(selectionPanel, BorderLayout.WEST);
         add(canvasPanel, BorderLayout.EAST);
-        add(mainPanel);
+        add(toolbarPanel, BorderLayout.NORTH);
+
         setVisible(true);
     }
 }

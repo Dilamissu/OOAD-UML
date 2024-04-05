@@ -1,16 +1,18 @@
 package swing_sub_class;
 
 import java.awt.event.MouseListener;
-
+import function_graphic.Class;
 
 public class CanvasListener implements MouseListener{
     ToolType toolType = ToolType.SELECT;
+    Canvas canvas;
 
     protected int pressedX, presedY;
     protected int releasedX, releasedY;
 
-    public CanvasListener(){
+    public CanvasListener(Canvas canvas){
         super();
+        this.canvas = canvas;
     }
 
     public void setToolType(ToolType toolType){
@@ -23,6 +25,20 @@ public class CanvasListener implements MouseListener{
         cleanXY();
         pressedX = e.getX();
         presedY = e.getY();
+
+        switch (toolType) {
+            case SELECT:
+                canvas.selectSingleShape(pressedX, presedY);
+                canvas.repaint();
+                break;
+            case CLASS:
+                canvas.addShape(new Class(pressedX, presedY));
+                canvas.repaint();
+                break;
+            default:
+                break;
+        }
+
         System.out.println("Mouse clicked at: " + pressedX + ", " + presedY);
     }
 
@@ -39,6 +55,10 @@ public class CanvasListener implements MouseListener{
         releasedX = e.getX();
         releasedY = e.getY();
         System.out.println("Mouse released at: " + releasedX + ", " + releasedY);
+        if(isSameXY()){
+            cleanXY();
+            return;
+        }
     }
 
     @Override
@@ -57,6 +77,10 @@ public class CanvasListener implements MouseListener{
         presedY = -1;
         releasedX = -1;
         releasedY = -1;
+    }
+
+    private boolean isSameXY(){
+        return pressedX == releasedX && presedY == releasedY;
     }
     
 }

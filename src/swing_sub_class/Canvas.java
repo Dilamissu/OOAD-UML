@@ -4,10 +4,11 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.Graphics;
 
-import function_graphic.Class;
 import function_graphic.base_graphics.*;
 
 public class Canvas extends JPanel{
+    boolean found = false;
+    UMLObject selectedShape = null;
     List<UMLObject> umlObjects = new ArrayList<UMLObject>();
     List<UMLLine> umlLines = new ArrayList<UMLLine>();
 
@@ -15,26 +16,35 @@ public class Canvas extends JPanel{
         super();
     }
 
-    public void addShape(UMLObject shape){
+    public void addObject(UMLObject shape){
         shape.setDepth(99-umlObjects.size());
         umlObjects.add(shape);
         selectSingleShape(shape.getLeftX(), shape.getLeftY());
         System.out.println(umlObjects.size() + " shapes in canvas.");
+        this.repaint();
     }
 
-    public void removeShape(UMLObject shape){
+    public void removeObject(UMLObject shape){
         for(UMLLine umlLine: umlLines){
             if(umlLine.getFrom() == shape || umlLine.getTo() == shape){
                 umlLines.remove(umlLine);
             }
         }
         umlObjects.remove(shape);
+        this.repaint();
         System.out.println(umlObjects.size() + " shapes in canvas.");
     }
 
+    public void addLine(UMLLine umlLine){
+        umlLines.add(umlLine);
+        this.repaint();
+        this.revalidate();
+        System.out.println(umlLines.size() + " lines in canvas.");
+    }
+
     public void selectSingleShape(int x, int y){
-        boolean found = false;
-        UMLObject selectedShape = null;
+        found = false;
+        selectedShape = null;
         for(UMLObject shape: umlObjects){
             shape.unselect();
             if(shape.isXYInside(x, y)){
@@ -53,15 +63,23 @@ public class Canvas extends JPanel{
             selectedShape.select();
         }
         System.out.println("Selected shape: " + selectedShape);
+        this.repaint();
         this.revalidate();
     }
+
+    public UMLObject getSelectedShape(){
+        return selectedShape;
+    }
+
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         for(UMLObject funtionGraphic: umlObjects){
+            System.out.println("Drawing shape: " + funtionGraphic);
             funtionGraphic.draw(g);
         }
         for(UMLLine umlLine: umlLines){
+            System.out.println("Drawing line: " + umlLine);
             umlLine.draw(g);
         }
     }

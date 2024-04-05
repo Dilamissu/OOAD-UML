@@ -7,7 +7,7 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
     protected boolean selected;
     // leftX, leftY is the coordinate of the left top corner of the object
     protected int leftX, leftY, width, height, depth;
-    protected List<Integer> connectedLinesUp, connectedLinesDown, connectedLinesLeft, connectedLinesRight = new ArrayList<Integer>();
+    protected List<UMLLine> connectedLinesUp, connectedLinesDown, connectedLinesLeft, connectedLinesRight = new ArrayList<UMLLine>();
     protected String name;    
     int rectOffset = 5;
     protected Rectangle upRect, downRect, leftRect, rightRect = new Rectangle();
@@ -59,6 +59,25 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
         downRect = new Rectangle(leftX + width/2 - rectOffset, leftY + height, 2*rectOffset, 2*rectOffset);
         leftRect = new Rectangle(leftX - 2*rectOffset, leftY + height/2 - rectOffset, 2*rectOffset, 2*rectOffset);
         rightRect = new Rectangle(leftX + width, leftY + height/2 - rectOffset, 2*rectOffset, 2*rectOffset);
+    }
+
+    // Already make sure contain the point
+    public Rectangle selectPoint(int x,int y) {
+        double deltaX = x - leftX;
+        double deltaY = y - leftY;
+        if(height/width > deltaY/deltaX){
+            if(height/(-width) > deltaY/deltaX){
+                return upRect;
+            }else{
+                return rightRect;
+            }
+        }else{
+            if(height/(-width) > deltaY/deltaX){
+                return leftRect;
+            }else{
+                return downRect;
+            }
+        }
     }
 
     public int getLeftX() {

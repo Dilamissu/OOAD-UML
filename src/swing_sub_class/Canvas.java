@@ -18,6 +18,7 @@ public class Canvas extends JPanel{
     public void addShape(UMLObject shape){
         shape.setDepth(99-umlObjects.size());
         umlObjects.add(shape);
+        selectSingleShape(shape.getLeftX(), shape.getLeftY());
         System.out.println(umlObjects.size() + " shapes in canvas.");
     }
 

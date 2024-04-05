@@ -2,6 +2,7 @@ package swing_sub_class;
 
 import java.awt.event.MouseListener;
 import function_graphic.Class;
+import function_graphic.UseCase;
 
 public class CanvasListener implements MouseListener{
     ToolType toolType = ToolType.SELECT;
@@ -33,6 +34,10 @@ public class CanvasListener implements MouseListener{
                 break;
             case CLASS:
                 canvas.addShape(new Class(pressedX, presedY));
+                canvas.repaint();
+                break;
+            case USECASE:
+                canvas.addShape(new UseCase(pressedX, presedY));
                 canvas.repaint();
                 break;
             default:

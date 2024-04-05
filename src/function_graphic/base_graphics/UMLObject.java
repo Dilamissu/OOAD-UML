@@ -12,32 +12,44 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
     int rectOffset = 5;
     protected Rectangle upRect, downRect, leftRect, rightRect = new Rectangle();
 
-    public UMLObject(){
+    public UMLObject(boolean isUseCase){
         leftX = 0;
         leftY = 0;
         width = 90;
         height = 90;
         selected = false;
 
+        if (isUseCase) {
+            width*=2;
+        }
+
         initializeRects();
     }
-    public UMLObject(int leftX, int leftY){
+    public UMLObject(int leftX, int leftY, boolean isUseCase){
         this.leftX = leftX;
         this.leftY = leftY;
         width = 90;
         height = 90;
         selected = false;
 
+        if (isUseCase) {
+            width*=2;
+        }
+
         initializeRects();
     }
 
-    public UMLObject(int leftX, int leftY, int depth){
+    public UMLObject(int leftX, int leftY, int depth, boolean isUseCase){
         this.leftX = leftX;
         this.leftY = leftY;
         this.depth = depth;
         width = 90;
         height = 90;
         selected = false;
+       
+        if (isUseCase) {
+            width*=2;
+        }
 
         initializeRects();
     }
@@ -76,6 +88,12 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
     }
     public void setLeftY(int leftY) {
         this.leftY = leftY;
+    }
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    public void setHeight(int height) {
+        this.height = height;
     }
     public void setDepth(int depth){
         this.depth = depth;

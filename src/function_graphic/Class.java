@@ -7,15 +7,15 @@ import function_graphic.base_graphics.UMLObject;
 public class Class extends UMLObject{
     Rectangle rect;
     public Class(){
-        super();
+        super(false);
         rect = new Rectangle(super.leftX, super.leftY, super.width, super.height);
     }
     public Class(int leftX, int leftY){
-        super(leftX, leftY);
+        super(leftX, leftY, false);
         rect = new Rectangle(super.leftX, super.leftY, super.width, super.height);
     }
     public Class(int leftX, int leftY, int depth){
-        super(leftX, leftY, depth);
+        super(leftX, leftY, depth, false);
         rect = new Rectangle(super.leftX, super.leftY, super.width, super.height);
     }
     @Override

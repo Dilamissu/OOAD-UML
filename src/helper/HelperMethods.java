@@ -1,6 +1,8 @@
 package helper;
 
 
+import java.awt.Polygon;
+import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,35 +64,77 @@ public class HelperMethods {
 
 
 
-    public static List<Line2D> getAssociationLine2Ds(ArrowDirections direction,int x1, int y1, int x2, int y2, int offset){
-        List<Line2D> lines = new ArrayList<Line2D>();
+    public static List<Shape> getAssociationLine2Ds(ArrowDirections direction,int x1, int y1, int x2, int y2, int offset){
+        List<Shape> shapes = new ArrayList<Shape>();
         switch (direction) {
             case UP:
-                lines.add(new Line2D.Double(x1, y1, x2, y2 + 2*offset));
-                lines.add(new Line2D.Double(x2, y2 + 2*offset, x2, y2));
-                lines.add(new Line2D.Double(x2, y2, x2 + offset, y2 + offset));
-                lines.add(new Line2D.Double(x2, y2, x2 - offset, y2 + offset));
-                return lines;
+                shapes.add(new Line2D.Double(x1, y1, x2, y2 + 2*offset));
+                shapes.add(new Line2D.Double(x2, y2 + 2*offset, x2, y2));
+                shapes.add(new Line2D.Double(x2, y2, x2 + offset, y2 + offset));
+                shapes.add(new Line2D.Double(x2, y2, x2 - offset, y2 + offset));
+                return shapes;
             case DOWN:
-                lines.add(new Line2D.Double(x1, y1, x2, y2 - 2*offset));
-                lines.add(new Line2D.Double(x2, y2 - 2*offset, x2, y2));
-                lines.add(new Line2D.Double(x2, y2, x2 + offset, y2 - offset));
-                lines.add(new Line2D.Double(x2, y2, x2 - offset, y2 - offset));
-                return lines;
+                shapes.add(new Line2D.Double(x1, y1, x2, y2 - 2*offset));
+                shapes.add(new Line2D.Double(x2, y2 - 2*offset, x2, y2));
+                shapes.add(new Line2D.Double(x2, y2, x2 + offset, y2 - offset));
+                shapes.add(new Line2D.Double(x2, y2, x2 - offset, y2 - offset));
+                return shapes;
             case LEFT:
-                lines.add(new Line2D.Double(x1, y1, x2 + 2*offset, y2));
-                lines.add(new Line2D.Double(x2 + 2*offset, y2, x2, y2));
-                lines.add(new Line2D.Double(x2, y2, x2 + offset, y2 + offset));
-                lines.add(new Line2D.Double(x2, y2, x2 + offset, y2 - offset));
-                return lines;
+                shapes.add(new Line2D.Double(x1, y1, x2 + 2*offset, y2));
+                shapes.add(new Line2D.Double(x2 + 2*offset, y2, x2, y2));
+                shapes.add(new Line2D.Double(x2, y2, x2 + offset, y2 + offset));
+                shapes.add(new Line2D.Double(x2, y2, x2 + offset, y2 - offset));
+                return shapes;
             case RIGHT:
-                lines.add(new Line2D.Double(x1, y1, x2 - 2*offset, y2));
-                lines.add(new Line2D.Double(x2 - 2*offset, y2, x2, y2));
-                lines.add(new Line2D.Double(x2, y2, x2 - offset, y2 + offset));
-                lines.add(new Line2D.Double(x2, y2, x2 - offset, y2 - offset));
-                return lines;
+                shapes.add(new Line2D.Double(x1, y1, x2 - 2*offset, y2));
+                shapes.add(new Line2D.Double(x2 - 2*offset, y2, x2, y2));
+                shapes.add(new Line2D.Double(x2, y2, x2 - offset, y2 + offset));
+                shapes.add(new Line2D.Double(x2, y2, x2 - offset, y2 - offset));
+                return shapes;
             default:
-                return lines;
+                return shapes;
+        }
+    }
+
+    public static List<Shape> getGeneralizationLine2Ds(ArrowDirections direction,int x1, int y1, int x2, int y2, int offset){
+        List<Shape> shapes = new ArrayList<Shape>();
+        Polygon polygon = new Polygon();
+        polygon.addPoint(x2, y2);
+        switch (direction) {
+            case UP:
+                polygon.addPoint(x2 + offset, y2 + offset);
+                polygon.addPoint(x2 - offset, y2 + offset);
+
+                shapes.add(new Line2D.Double(x1, y1, x2, y2 + offset));
+                shapes.add(polygon);
+
+                return shapes;
+            case DOWN:
+                polygon.addPoint(x2 + offset, y2 - offset);
+                polygon.addPoint(x2 - offset, y2 - offset);
+
+                shapes.add(new Line2D.Double(x1, y1, x2, y2 - offset));
+                shapes.add(polygon);
+
+                return shapes;
+            case LEFT:
+                polygon.addPoint(x2 + offset, y2 + offset);
+                polygon.addPoint(x2 + offset, y2 - offset);
+
+                shapes.add(new Line2D.Double(x1, y1, x2 + offset, y2));
+                shapes.add(polygon);
+                
+                return shapes;
+            case RIGHT:
+                polygon.addPoint(x2 - offset, y2 + offset);
+                polygon.addPoint(x2 - offset, y2 - offset);
+            
+                shapes.add(new Line2D.Double(x1, y1, x2 - offset, y2));
+                shapes.add(polygon);
+                
+                return shapes;
+            default:
+                return shapes;
         }
     }
 }

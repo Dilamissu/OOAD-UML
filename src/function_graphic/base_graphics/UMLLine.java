@@ -1,6 +1,6 @@
 package function_graphic.base_graphics;
 
-import java.awt.geom.Line2D;
+import java.awt.Shape;
 import java.util.*;
 import helper.HelperMethods;
 
@@ -8,7 +8,7 @@ public abstract class UMLLine implements FuntionGraphic{
     protected int stratX, startY, endX, endY;
     protected UMLObject from, to;
     protected double ratio;
-    protected List<Line2D> lines = new ArrayList<Line2D>();
+    protected List<Shape> shapes = new ArrayList<Shape>();
 
     /// [StartX, StartY] is the start point of the line
     /// [EndX, EndY] is the end point of the line

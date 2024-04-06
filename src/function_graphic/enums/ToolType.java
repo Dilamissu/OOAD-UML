@@ -1,4 +1,4 @@
-package swing_sub_class;
+package function_graphic.enums;
 
 public enum ToolType{
     SELECT,

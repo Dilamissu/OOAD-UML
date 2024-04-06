@@ -66,10 +66,7 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
     public Point2D selectPoint(int x,int y) {
         double deltaX = x - leftX;
         double deltaY = y - leftY;
-        System.out.println("deltaX: " + deltaX + " deltaY: " + deltaY);
-        System.out.println("width: " + width + " height: " + height);
-        System.out.println("deltaY/deltaX: " + deltaY/deltaX);
-        System.out.println("height/width: " + height/width);
+        
         if(deltaY/deltaX > height/width){
             // Down or left
             if((deltaY - height)/deltaX < -height/width){

@@ -20,7 +20,7 @@ public class Canvas extends JPanel{
         shape.setDepth(99-umlObjects.size());
         umlObjects.add(shape);
         selectSingleShape(shape.getLeftX(), shape.getLeftY());
-        System.out.println(umlObjects.size() + " shapes in canvas.");
+        System.out.println(umlObjects.size() + " objects in canvas.");
         this.repaint();
     }
 
@@ -32,7 +32,14 @@ public class Canvas extends JPanel{
         }
         umlObjects.remove(shape);
         this.repaint();
-        System.out.println(umlObjects.size() + " shapes in canvas.");
+        System.out.println(umlObjects.size() + " objects in canvas.");
+    }
+
+    public void removeAll(){
+        umlObjects.clear();
+        umlLines.clear();
+        this.repaint();
+        System.out.println("All shapes removed.");
     }
 
     public void addLine(UMLLine umlLine){
@@ -58,7 +65,6 @@ public class Canvas extends JPanel{
         }
         if(!found){
             System.out.println("No shape selected.");
-            return;
         }else{
             selectedShape.select();
         }

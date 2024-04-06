@@ -1,4 +1,7 @@
 import javax.swing.*;
+
+import function_graphic.enums.ToolType;
+import helper.HelperMethods;
 import swing_sub_class.*;
 import swing_sub_class.Canvas;
 
@@ -22,10 +25,16 @@ public class MainFrame extends JFrame{
         
         JButton fileButton = HelperMethods.createButton("File",false);
         JButton editButton = HelperMethods.createButton("Edit",false);
+        JButton cleanButton = HelperMethods.createButton("Clean",false);
+        cleanButton.addActionListener(e -> {
+            canvas.removeAll();
+        });
 
         mainToolBar.add(fileButton);
         mainToolBar.add(Box.createRigidArea(new Dimension(5, 0)));
         mainToolBar.add(editButton);
+        mainToolBar.add(Box.createRigidArea(new Dimension(5, 0)));
+        mainToolBar.add(cleanButton);
 
         toolbarPanel.add(mainToolBar);
     }
@@ -104,9 +113,6 @@ public class MainFrame extends JFrame{
         canvasPanel.setBackground(Color.white);
         canvasPanel.setPreferredSize(new Dimension(windowWidth - selectionPanel.getPreferredSize().width - 16, windowHeight - toolbarPanel.getHeight()));
         addCanvasComponents(canvasPanel);
-
-        // print the size of the selection panel and its components
-        System.out.println(selectionPanel.getPreferredSize() + " " + selectionPanel.getComponentCount());
 
         setTitle("UML Editor");
         setSize(windowWidth, windowHeight);

@@ -1,12 +1,9 @@
 package function_graphic;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 
-import function_graphic.base_graphics.UMLObject;
+import function_graphic.base_objects.UMLObject;
 
 public class UseCase extends UMLObject{
     Ellipse2D ellipse2d;
@@ -43,18 +40,6 @@ public class UseCase extends UMLObject{
         ellipse2d.setFrame(ellipse2d.getX() + deltaX, ellipse2d.getY() + deltaY, ellipse2d.getWidth(), ellipse2d.getHeight());
         moveRects(deltaX, deltaY);
         moveLine(deltaX, deltaY);
-    }
-
-    @Override
-    public void group() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'group'");
-    }
-
-    @Override
-    public void ungroup() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'ungroup'");
     }
 
     @Override

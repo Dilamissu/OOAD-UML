@@ -1,5 +1,6 @@
 import javax.swing.*;
 
+import function_graphic.base_objects.Group;
 import function_graphic.enums.ToolType;
 import helper.HelperMethods;
 import swing_sub_class.*;
@@ -29,12 +30,26 @@ public class MainFrame extends JFrame{
         cleanButton.addActionListener(e -> {
             canvas.removeAll();
         });
+        JButton groupButton = HelperMethods.createButton("Group",false);
+        groupButton.addActionListener(e -> {
+            canvas.groupSelectedShapes();
+        });
+        JButton ungroupButton = HelperMethods.createButton("Ungroup",false);
+        ungroupButton.addActionListener(e -> {
+            if(canvas.getSelectedShape() instanceof Group){
+                canvas.ungroup((Group)canvas.getSelectedShape());
+            }
+        });
 
         mainToolBar.add(fileButton);
         mainToolBar.add(Box.createRigidArea(new Dimension(5, 0)));
         mainToolBar.add(editButton);
         mainToolBar.add(Box.createRigidArea(new Dimension(5, 0)));
         mainToolBar.add(cleanButton);
+        mainToolBar.add(Box.createRigidArea(new Dimension(5, 0)));
+        mainToolBar.add(groupButton);
+        mainToolBar.add(Box.createRigidArea(new Dimension(5, 0)));
+        mainToolBar.add(ungroupButton);
 
         toolbarPanel.add(mainToolBar);
     }

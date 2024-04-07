@@ -1,7 +1,9 @@
-package function_graphic.base_graphics;
+package function_graphic.base_objects;
 
 import java.awt.Shape;
 import java.util.*;
+
+import function_graphic.base_interfaces.*;
 import helper.HelperMethods;
 
 public abstract class UMLLine implements FuntionGraphic{

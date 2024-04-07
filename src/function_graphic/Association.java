@@ -5,8 +5,8 @@ import java.awt.geom.Line2D;
 import java.util.*;
 import java.util.List;
 
-import function_graphic.base_graphics.UMLLine;
-import function_graphic.base_graphics.UMLObject;
+import function_graphic.base_objects.UMLLine;
+import function_graphic.base_objects.UMLObject;
 import function_graphic.enums.Directions;
 import helper.HelperMethods;
 

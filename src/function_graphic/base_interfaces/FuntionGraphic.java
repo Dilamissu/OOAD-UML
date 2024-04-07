@@ -1,4 +1,4 @@
-package function_graphic.base_graphics;
+package function_graphic.base_interfaces;
 
 import java.awt.Graphics;
 

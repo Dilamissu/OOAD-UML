@@ -9,7 +9,8 @@ import java.awt.geom.Rectangle2D;
 
 import function_graphic.*;
 import function_graphic.Class;
-import function_graphic.base_graphics.*;
+import function_graphic.base_interfaces.Selectable;
+import function_graphic.base_objects.*;
 import function_graphic.enums.ToolType;
 
 public class CanvasListener implements MouseListener, MouseMotionListener{
@@ -81,18 +82,28 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
             return;
         }
 
-        UMLObject from = null, to = null;
+        Selectable from = null, to = null;
         Point2D fromPoint2d = null, toPoint2d = null;
 
         try{
             if(toolType == ToolType.ASSOCIATION || toolType == ToolType.GENERALIZATION || toolType == ToolType.COMPOSITION){
                 canvas.selectSingleShape(pressedX, pressedY);
                 from = canvas.getSelectedShape();
-                fromPoint2d = from.selectPoint(pressedX, pressedY);
+                if(from.getClass() == Group.class){
+                    System.out.println("From is a group.");
+                    return;
+                }else{
+                    fromPoint2d = ((UMLObject)from).selectPoint(pressedX, pressedY);
+                }
 
                 canvas.selectSingleShape(releasedX, releasedY);
                 to = canvas.getSelectedShape();
-                toPoint2d = to.selectPoint(releasedX, releasedY);
+                if(to.getClass() == Group.class){
+                    System.out.println("To is a group.");
+                    return;
+                }else{
+                    toPoint2d = ((UMLObject)to).selectPoint(releasedX, releasedY);
+                }
 
                 System.out.println("When mouse release, FromPoint: " + fromPoint2d + " toPoint: " + toPoint2d);
             }
@@ -111,13 +122,13 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
                 }
                 break;
             case ASSOCIATION:
-                canvas.addLine(new Association((int)fromPoint2d.getX(), (int)fromPoint2d.getY(), (int)toPoint2d.getX(), (int)toPoint2d.getY(), from, to));
+                canvas.addLine(new Association((int)fromPoint2d.getX(), (int)fromPoint2d.getY(), (int)toPoint2d.getX(), (int)toPoint2d.getY(), (UMLObject)from, (UMLObject)to));
                 break;
             case GENERALIZATION:
-                canvas.addLine(new Generalization((int)fromPoint2d.getX(), (int)fromPoint2d.getY(), (int)toPoint2d.getX(), (int)toPoint2d.getY(), from, to));
+                canvas.addLine(new Generalization((int)fromPoint2d.getX(), (int)fromPoint2d.getY(), (int)toPoint2d.getX(), (int)toPoint2d.getY(), (UMLObject)from, (UMLObject)to));
                 break;
             case COMPOSITION:
-                canvas.addLine(new Composition((int)fromPoint2d.getX(), (int)fromPoint2d.getY(), (int)toPoint2d.getX(), (int)toPoint2d.getY(), from, to));
+                canvas.addLine(new Composition((int)fromPoint2d.getX(), (int)fromPoint2d.getY(), (int)toPoint2d.getX(), (int)toPoint2d.getY(), (UMLObject)from, (UMLObject)to));
                 break;
             default:
                 canvas.unselectAllShape();

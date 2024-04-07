@@ -2,7 +2,7 @@ package function_graphic;
 
 import java.awt.*;
 
-import function_graphic.base_graphics.UMLObject;
+import function_graphic.base_objects.UMLObject;
 
 public class Class extends UMLObject{
     Rectangle rect;
@@ -42,18 +42,6 @@ public class Class extends UMLObject{
         moveLine(deltaX, deltaY);
     }
 
-    @Override
-    public void group() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'group'");
-    }
-    
-    @Override
-    public void ungroup() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'ungroup'");
-    }
-    
     @Override
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;

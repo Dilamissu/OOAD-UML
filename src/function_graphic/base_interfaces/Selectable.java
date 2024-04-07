@@ -1,11 +1,11 @@
-package function_graphic.base_graphics;
+package function_graphic.base_interfaces;
 
 public interface Selectable{
     public abstract boolean isXYInside(int x, int y);
     public abstract void select();
     public abstract void unselect();
+    public abstract boolean isSelected();
     public abstract void move(int deltaX, int deltaY);
-    public abstract void group();
-    public abstract void ungroup();
+    public abstract int getDepth();
 }
 

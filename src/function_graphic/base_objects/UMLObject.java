@@ -1,14 +1,16 @@
-package function_graphic.base_graphics;
+package function_graphic.base_objects;
 
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.*;
+import function_graphic.base_interfaces.*;
 
 import function_graphic.enums.Directions;
 
-public abstract class UMLObject implements Selectable, FuntionGraphic{
-    protected boolean selected;
+public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic{
+    protected boolean selected, grouped, selectable = true;
     // leftX, leftY is the coordinate of the left top corner of the object
+    protected Group group;
     protected int leftX, leftY, width, height, depth;
     protected List<UMLLine> connectedLinesUp = new ArrayList<UMLLine>();
     protected List<UMLLine> connectedLinesDown = new ArrayList<UMLLine>();
@@ -24,6 +26,8 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
         width = 90;
         height = 90;
         selected = false;
+        grouped = false;
+
 
         if (isUseCase) {
             width*=2;
@@ -31,12 +35,14 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
 
         initializeRects();
     }
+    
     public UMLObject(int leftX, int leftY, boolean isUseCase){
         this.leftX = leftX;
         this.leftY = leftY;
         width = 90;
         height = 90;
         selected = false;
+        grouped = false;
 
         if (isUseCase) {
             width*=2;
@@ -52,6 +58,7 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
         width = 90;
         height = 90;
         selected = false;
+        grouped = false;
        
         if (isUseCase) {
             width*=2;
@@ -150,8 +157,24 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
         return name;
     }
     
+    public boolean isGrouped(){
+        return grouped;
+    }
+
+    public Group getGroup(){
+        return group;
+    }
+
     public boolean isSelected(){
         return selected;
+    }
+
+    public void unselectable(){
+        selectable = false;
+    }
+
+    public void selectable(){
+        selectable = true;
     }
 
     public void setLeftX(int leftX) {
@@ -200,5 +223,13 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
         }
     }
     
-
+    public void group(Group group){
+        this.group = group;
+        grouped = true;
+    }
+    
+    public void ungroup(){
+        group = null;
+        grouped = false;
+    }
 }

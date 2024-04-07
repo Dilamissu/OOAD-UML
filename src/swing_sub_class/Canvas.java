@@ -3,8 +3,11 @@ package swing_sub_class;
 import java.util.*;
 import javax.swing.*;
 import java.awt.Graphics;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import function_graphic.base_graphics.*;
+import helper.HelperMethods;
 
 public class Canvas extends JPanel{
     boolean found = false;
@@ -19,7 +22,7 @@ public class Canvas extends JPanel{
     public void addObject(UMLObject shape){
         shape.setDepth(99-umlObjects.size());
         umlObjects.add(shape);
-        selectSingleShape(shape.getLeftX(), shape.getLeftY());
+        selectShape(shape);
         System.out.println(umlObjects.size() + " objects in canvas.");
         this.repaint();
     }
@@ -46,6 +49,20 @@ public class Canvas extends JPanel{
         umlLines.add(umlLine);
         this.repaint();
         this.revalidate();
+        UMLObject from = umlLine.getFrom();
+        UMLObject to = umlLine.getTo();
+
+        from.addConnectedLine(umlLine, HelperMethods.getRelativePositions(
+                    new Point2D.Double(umlLine.getStartX(), umlLine.getStartY()),
+                    new Point2D.Double(from.getLeftX(), from.getLeftY()),
+                    from.getWidth(), from.getHeight())
+                );
+        to.addConnectedLine(umlLine, HelperMethods.getRelativePositions(
+                    new Point2D.Double(umlLine.getEndX(), umlLine.getEndY()),
+                    new Point2D.Double(to.getLeftX(), to.getLeftY()),
+                    to.getWidth(), to.getHeight())
+                );
+
         System.out.println(umlLines.size() + " lines in canvas.");
     }
 
@@ -64,11 +81,28 @@ public class Canvas extends JPanel{
             }
         }
         if(!found){
-            System.out.println("No shape selected.");
+            throw new IllegalArgumentException("No shape found at: " + x + ", " + y);
         }else{
             selectedShape.select();
         }
         System.out.println("Selected shape: " + selectedShape);
+        this.repaint();
+        this.revalidate();
+    }
+
+    public void selectShape(UMLObject shape){
+        unselectAllShape();
+        shape.select();
+        this.repaint();
+        this.revalidate();
+    }
+
+    public void selectMultipleShapes(Rectangle2D selectionArea){
+        for(UMLObject shape: umlObjects){
+            if(selectionArea.contains(shape.getLeftX(), shape.getLeftY()) && selectionArea.contains(shape.getRightX(), shape.getRightY())){
+                shape.select();
+            }
+        }
         this.repaint();
         this.revalidate();
     }

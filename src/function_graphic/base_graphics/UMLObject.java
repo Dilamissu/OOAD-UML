@@ -4,11 +4,16 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.*;
 
+import function_graphic.enums.Directions;
+
 public abstract class UMLObject implements Selectable, FuntionGraphic{
     protected boolean selected;
     // leftX, leftY is the coordinate of the left top corner of the object
     protected int leftX, leftY, width, height, depth;
-    protected List<UMLLine> connectedLinesUp, connectedLinesDown, connectedLinesLeft, connectedLinesRight = new ArrayList<UMLLine>();
+    protected List<UMLLine> connectedLinesUp = new ArrayList<UMLLine>();
+    protected List<UMLLine> connectedLinesDown = new ArrayList<UMLLine>();
+    protected List<UMLLine> connectedLinesLeft = new ArrayList<UMLLine>();
+    protected List<UMLLine> connectedLinesRight = new ArrayList<UMLLine>();
     protected String name;    
     int rectOffset = 5;
     protected Rectangle upRect, downRect, leftRect, rightRect = new Rectangle();
@@ -63,6 +68,7 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
     }
 
     // Already make sure contain the point
+    // Return the point that will be connected
     public Point2D selectPoint(int x,int y) {
         double deltaX = x - leftX;
         double deltaY = y - leftY;
@@ -84,12 +90,37 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
         }
     }
 
+    public void addConnectedLine(UMLLine line, Directions position){
+        switch (position) {
+            case UP:
+                connectedLinesUp.add(line);
+                break;
+            case DOWN:
+                connectedLinesDown.add(line);
+                break;
+            case LEFT:
+                connectedLinesLeft.add(line);
+                break;
+            case RIGHT:
+                connectedLinesRight.add(line);
+                break;
+            default:
+                break;
+        }
+    }
+
     public int getLeftX() {
         return leftX;
     }
 
     public int getLeftY() {
         return leftY;
+    }
+    public int getRightX() {
+        return leftX + width;
+    }
+    public int getRightY() {
+        return leftY + height;
     }
 
     public int getWidth() {
@@ -128,6 +159,12 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
         this.name = name;
     }
 
+    public void moveRects(int deltaX, int deltaY){
+        upRect.setLocation(upRect.x + deltaX, upRect.y + deltaY);
+        downRect.setLocation(downRect.x + deltaX, downRect.y + deltaY);
+        leftRect.setLocation(leftRect.x + deltaX, leftRect.y + deltaY);
+        rightRect.setLocation(rightRect.x + deltaX, rightRect.y + deltaY);
+    }
     
 
 }

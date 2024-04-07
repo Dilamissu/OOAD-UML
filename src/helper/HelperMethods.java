@@ -4,12 +4,13 @@ package helper;
 import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 
-import function_graphic.enums.ArrowDirections;
+import function_graphic.enums.Directions;
 
 public class HelperMethods {
     public static JButton createButton(String text, boolean isBordered){
@@ -26,45 +27,61 @@ public class HelperMethods {
     public static double ratio(int x1, int y1, int x2, int y2){
         return (double)(y2 - y1) / (double)(x2 - x1);
     }
-    public static ArrowDirections getDirection(int x1, int y1, int x2, int y2){
+
+    /// Get the direction of the line by angle in shape
+    public static Directions getDirection(int x1, int y1, int x2, int y2){
         double ratio = ratio(x1, y1, x2, y2);
         if (ratio > 2) {
             if(x2 < x1){
-                return ArrowDirections.UP;
+                return Directions.UP;
             }else{
                 // down
-                return ArrowDirections.DOWN;
+                return Directions.DOWN;
             }
         } else if (ratio > 0) {
             if(x2 < x1){
                 // left
-                return ArrowDirections.LEFT;
+                return Directions.LEFT;
             }else{
                 // right
-                return ArrowDirections.RIGHT;
+                return Directions.RIGHT;
             }
         } else if (ratio > -2) {
             if(x2 < x1){
                 //left
-                return ArrowDirections.LEFT;
+                return Directions.LEFT;
             }else{
                 //right
-                return ArrowDirections.RIGHT;
+                return Directions.RIGHT;
             }
         } else {
             if (x2 < x1) {
                 //down
-                return ArrowDirections.DOWN;
+                return Directions.DOWN;
             } else {
                 //up
-                return ArrowDirections.UP;
+                return Directions.UP;
             }
+        }
+    }
+
+    public static Directions getRelativePositions(Point2D point, Point2D shapeLeft, int shapeWidth, int shapeHeight){
+        if(point.getX() == shapeLeft.getX()){
+            return Directions.LEFT;
+        }else if(point.getX() == shapeLeft.getX() + shapeWidth){
+            return Directions.RIGHT;
+        }else if(point.getY() == shapeLeft.getY()){
+            return Directions.UP;
+        }else if(point.getY() == shapeLeft.getX() + shapeHeight){
+            return Directions.DOWN;
+        }else{
+            throw new IllegalArgumentException("The point is not on the shape");
         }
     }
 
 
 
-    public static List<Shape> getAssociationLine2Ds(ArrowDirections direction,int x1, int y1, int x2, int y2, int offset){
+    public static List<Shape> getAssociationLine2Ds(Directions direction,int x1, int y1, int x2, int y2, int offset){
         List<Shape> shapes = new ArrayList<Shape>();
         switch (direction) {
             case UP:
@@ -96,7 +113,7 @@ public class HelperMethods {
         }
     }
 
-    public static List<Shape> getGeneralizationLine2Ds(ArrowDirections direction,int x1, int y1, int x2, int y2, int offset){
+    public static List<Shape> getGeneralizationLine2Ds(Directions direction,int x1, int y1, int x2, int y2, int offset){
         List<Shape> shapes = new ArrayList<Shape>();
         Polygon polygon = new Polygon();
         polygon.addPoint(x2, y2);

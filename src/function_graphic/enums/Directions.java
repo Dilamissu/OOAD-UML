@@ -1,5 +1,5 @@
 package function_graphic.enums;
 
-public enum ArrowDirections {
+public enum Directions {
     UP, DOWN, LEFT, RIGHT
 }

@@ -6,11 +6,11 @@ import java.awt.Shape;
 
 import function_graphic.base_graphics.UMLLine;
 import function_graphic.base_graphics.UMLObject;
-import function_graphic.enums.ArrowDirections;
+import function_graphic.enums.Directions;
 import helper.HelperMethods;
 
 public class Association extends UMLLine{
-    ArrowDirections direction;
+    Directions direction;
     public Association(int x1, int y1, int x2, int y2, UMLObject from, UMLObject to) {
         super(x1, y1, x2, y2, from, to);
         int offset = 10;

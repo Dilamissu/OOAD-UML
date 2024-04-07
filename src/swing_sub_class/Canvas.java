@@ -135,11 +135,11 @@ public class Canvas extends JPanel{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         for(UMLObject funtionGraphic: umlObjects){
-            System.out.println("Drawing shape: " + funtionGraphic);
+            // System.out.println("Drawing shape: " + funtionGraphic);
             funtionGraphic.draw(g);
         }
         for(UMLLine umlLine: umlLines){
-            System.out.println("Drawing line: " + umlLine);
+            // System.out.println("Drawing line: " + umlLine);
             umlLine.draw(g);
         }
     }

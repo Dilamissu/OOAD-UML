@@ -47,5 +47,5 @@ public abstract class UMLLine implements FuntionGraphic{
     public UMLObject getTo() {
         return to;
     }
-
+    abstract public void move(int dx, int dy, UMLObject object);
 }

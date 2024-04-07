@@ -37,8 +37,7 @@ public class CanvasListener implements MouseListener{
                 try {
                     canvas.selectSingleShape(pressedX, pressedY);
                 } catch (Exception ex) {
-                    // TODO: handle exception
-                    System.out.println("Error: " + ex);
+                    canvas.unselectAllShape();
                 }
                 break;
             case CLASS:
@@ -98,6 +97,7 @@ public class CanvasListener implements MouseListener{
                     canvas.selectSingleShape(pressedX, pressedY);
                     canvas.getSelectedShape().move(releasedX - pressedX, releasedY - pressedY);
                     canvas.repaint();
+                    canvas.revalidate();
                 }catch(Exception ex){
                     canvas.selectMultipleShapes(new Rectangle2D.Double(pressedX, pressedY, releasedX - pressedX, releasedY - pressedY));
                 }

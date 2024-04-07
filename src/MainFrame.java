@@ -89,7 +89,7 @@ public class MainFrame extends JFrame{
     }
 
     private void addCanvasComponents(Container canvasPanel){
-        canvas.setBackground(Color.green);
+        canvas.setBackground(Color.white);
         canvas.addMouseListener(canvasListener);
         canvasPanel.addMouseListener(canvasListener);
         canvasPanel.add(canvas);

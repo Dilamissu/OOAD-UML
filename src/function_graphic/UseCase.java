@@ -39,6 +39,7 @@ public class UseCase extends UMLObject{
         
         ellipse2d.setFrame(ellipse2d.getX() + deltaX, ellipse2d.getY() + deltaY, ellipse2d.getWidth(), ellipse2d.getHeight());
         moveRects(deltaX, deltaY);
+        moveLine(deltaX, deltaY);
     }
 
     @Override

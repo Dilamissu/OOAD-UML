@@ -73,8 +73,6 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
         double deltaX = x - leftX;
         double deltaY = y - leftY;
         double ratio = (double)height/width;
-        System.out.println("Select point: " + x + ", " + y + " in object: " + this + " with deltaX: " + deltaX + " and deltaY: " + deltaY);
-        System.out.println("Height/Widht: " + height + "/" + width + " = " + (double)height/width);
         if(deltaY/deltaX > ratio){
             // Down or left
             if((deltaY - height)/deltaX < -ratio){
@@ -175,6 +173,21 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
         downRect.setLocation(downRect.x + deltaX, downRect.y + deltaY);
         leftRect.setLocation(leftRect.x + deltaX, leftRect.y + deltaY);
         rightRect.setLocation(rightRect.x + deltaX, rightRect.y + deltaY);
+    }
+
+    public void moveLine(int deltaX, int deltaY){
+        for(UMLLine line: connectedLinesUp){
+            line.move(deltaX, deltaY, this);
+        }
+        for(UMLLine line: connectedLinesDown){
+            line.move(deltaX, deltaY, this);
+        }
+        for(UMLLine line: connectedLinesLeft){
+            line.move(deltaX, deltaY, this);
+        }
+        for(UMLLine line: connectedLinesRight){
+            line.move(deltaX, deltaY, this);
+        }
     }
     
 

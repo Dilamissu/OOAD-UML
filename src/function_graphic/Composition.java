@@ -10,7 +10,17 @@ public class Composition extends UMLLine{
     public Composition(int x1, int y1, int x2, int y2, UMLObject from, UMLObject to) {
         super(x1, y1, x2, y2, from, to);
     }
-    
+    @Override
+    public void move(int dx, int dy, UMLObject object) {
+        if(object.equals(from)){
+            stratX += dx;
+            startY += dy;
+        }else if(object.equals(to)){
+            endX += dx;
+            endY += dy;
+        }
+        // TODO add arrow
+    }
     @Override
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;

@@ -33,6 +33,7 @@ public class Class extends UMLObject{
         
         rect.setLocation(rect.x + deltaX, rect.y + deltaY);
         moveRects(deltaX, deltaY);
+        moveLine(deltaX, deltaY);
     }
     @Override
     public void group() {

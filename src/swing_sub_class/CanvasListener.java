@@ -107,7 +107,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
         switch (toolType) {
             case SELECT:
                 if(canvas.indecateShape != null){
-                    canvas.selectMultipleShapes(new Rectangle2D.Double(pressedX, pressedY, releasedX - pressedX, releasedY - pressedY));
+                    canvas.selectMultipleShapes(new Rectangle2D.Double(Math.min(pressedX, releasedX), Math.min(pressedY, releasedY), Math.abs(pressedX - releasedX), Math.abs(pressedY - releasedY)));
                 }
                 break;
             case ASSOCIATION:
@@ -145,7 +145,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
                     draggedX = e.getX();
                     draggedY = e.getY();
                 }catch(Exception ex){
-                    canvas.setIndecateShape(new Rectangle2D.Double(pressedX, pressedY, e.getX() - pressedX, e.getY() - pressedY));
+                    canvas.setIndecateShape(new Rectangle2D.Double(Math.min(e.getX(), pressedX), Math.min(e.getY(), pressedY), Math.abs(e.getX() - pressedX), Math.abs(e.getY() - pressedY)));
                 }    
                 canvas.repaint();
                 canvas.revalidate();

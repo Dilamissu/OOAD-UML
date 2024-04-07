@@ -18,6 +18,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
 
     protected int pressedX, pressedY;
     protected int releasedX, releasedY;
+    protected int draggedX, draggedY;
 
     public CanvasListener(Canvas canvas){
         super();
@@ -60,6 +61,13 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
         cleanXY();
         pressedX = e.getX();
         pressedY = e.getY();
+        draggedX = pressedX;
+        draggedY = pressedY;
+        try {
+            canvas.selectSingleShape(pressedX, pressedY);
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
     }
 
     @Override
@@ -67,10 +75,9 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
         releasedX = e.getX();
         releasedY = e.getY();
 
-        canvas.setIndecateShape(null);
-
         if(isSameXY()){
             cleanXY();
+            canvas.setIndecateShape(null);
             return;
         }
 
@@ -99,12 +106,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
         }
         switch (toolType) {
             case SELECT:
-                try{
-                    canvas.selectSingleShape(pressedX, pressedY);
-                    canvas.getSelectedShape().move(releasedX - pressedX, releasedY - pressedY);
-                    canvas.repaint();
-                    canvas.revalidate();
-                }catch(Exception ex){
+                if(canvas.indecateShape != null){
                     canvas.selectMultipleShapes(new Rectangle2D.Double(pressedX, pressedY, releasedX - pressedX, releasedY - pressedY));
                 }
                 break;
@@ -121,6 +123,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
                 canvas.unselectAllShape();
                 break;           
         }
+        canvas.setIndecateShape(null);
     }
 
     @Override
@@ -130,14 +133,22 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
     @Override
     public void mouseExited(MouseEvent e) {
         cleanXY();
+        canvas.setIndecateShape(null);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         switch (toolType) {
             case SELECT:
-                canvas.setIndecateShape(new Rectangle2D.Double(pressedX, pressedY, e.getX() - pressedX, e.getY() - pressedY));
+                try{
+                    canvas.getSelectedShape().move(e.getX() - draggedX, e.getY() - draggedY);
+                    draggedX = e.getX();
+                    draggedY = e.getY();
+                }catch(Exception ex){
+                    canvas.setIndecateShape(new Rectangle2D.Double(pressedX, pressedY, e.getX() - pressedX, e.getY() - pressedY));
+                }    
                 canvas.repaint();
+                canvas.revalidate();
                 break;
             case ASSOCIATION:
             case GENERALIZATION:

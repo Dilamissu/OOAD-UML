@@ -41,7 +41,7 @@ public class Class extends UMLObject{
         moveRects(deltaX, deltaY);
         moveLine(deltaX, deltaY);
     }
-    
+
     @Override
     public void group() {
         // TODO Auto-generated method stub

@@ -125,9 +125,11 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
     public int getLeftY() {
         return leftY;
     }
+    
     public int getRightX() {
         return leftX + width;
     }
+    
     public int getRightY() {
         return leftY + height;
     }
@@ -139,12 +141,15 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
     public int getHeight() {
         return height;
     }
+    
     public int getDepth() {
         return depth;
     }
+    
     public String getName(){
         return name;
     }
+    
     public boolean isSelected(){
         return selected;
     }
@@ -152,18 +157,23 @@ public abstract class UMLObject implements Selectable, FuntionGraphic{
     public void setLeftX(int leftX) {
         this.leftX = leftX;
     }
+    
     public void setLeftY(int leftY) {
         this.leftY = leftY;
     }
+    
     public void setWidth(int width) {
         this.width = width;
     }
+    
     public void setHeight(int height) {
         this.height = height;
     }
+    
     public void setDepth(int depth){
         this.depth = depth;
     }
+    
     public void setName(String name){
         this.name = name;
     }

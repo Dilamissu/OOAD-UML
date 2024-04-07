@@ -72,7 +72,7 @@ public class HelperMethods {
             return Directions.RIGHT;
         }else if(point.getY() == shapeLeft.getY()){
             return Directions.UP;
-        }else if(point.getY() == shapeLeft.getX() + shapeHeight){
+        }else if(point.getY() == shapeLeft.getY() + shapeHeight){
             return Directions.DOWN;
         }else{
             throw new IllegalArgumentException("The point is not on the shape");

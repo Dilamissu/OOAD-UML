@@ -13,7 +13,7 @@ public class CanvasListener implements MouseListener{
     ToolType toolType = ToolType.SELECT;
     Canvas canvas;
 
-    protected int pressedX, presedY;
+    protected int pressedX, pressedY;
     protected int releasedX, releasedY;
 
     public CanvasListener(Canvas canvas){
@@ -30,22 +30,22 @@ public class CanvasListener implements MouseListener{
     public void mouseClicked(java.awt.event.MouseEvent e) {
         cleanXY();
         pressedX = e.getX();
-        presedY = e.getY();
+        pressedY = e.getY();
 
         switch (toolType) {
             case SELECT:
                 try {
-                    canvas.selectSingleShape(pressedX, presedY);
+                    canvas.selectSingleShape(pressedX, pressedY);
                 } catch (Exception ex) {
                     // TODO: handle exception
                     System.out.println("Error: " + ex);
                 }
                 break;
             case CLASS:
-                canvas.addObject(new Class(pressedX, presedY));
+                canvas.addObject(new Class(pressedX, pressedY));
                 break;
             case USECASE:
-                canvas.addObject(new UseCase(pressedX, presedY));
+                canvas.addObject(new UseCase(pressedX, pressedY));
                 break;
             default:
             System.out.println("Tool type not supported.");
@@ -57,7 +57,7 @@ public class CanvasListener implements MouseListener{
     public void mousePressed(java.awt.event.MouseEvent e) {
         cleanXY();
         pressedX = e.getX();
-        presedY = e.getY();
+        pressedY = e.getY();
     }
 
     @Override
@@ -74,13 +74,15 @@ public class CanvasListener implements MouseListener{
 
         try{
             if(toolType == ToolType.ASSOCIATION || toolType == ToolType.GENERALIZATION || toolType == ToolType.COMPOSITION){
-                canvas.selectSingleShape(pressedX, presedY);
+                canvas.selectSingleShape(pressedX, pressedY);
                 from = canvas.getSelectedShape();
-                fromPoint2d = from.selectPoint(pressedX, presedY);
+                fromPoint2d = from.selectPoint(pressedX, pressedY);
 
                 canvas.selectSingleShape(releasedX, releasedY);
                 to = canvas.getSelectedShape();
                 toPoint2d = to.selectPoint(releasedX, releasedY);
+
+                System.out.println("When mouse release, FromPoint: " + fromPoint2d + " toPoint: " + toPoint2d);
             }
             if(from != null && to != null && from.equals(to)){
                 System.out.println("From and to are the same object.");
@@ -93,11 +95,11 @@ public class CanvasListener implements MouseListener{
         switch (toolType) {
             case SELECT:
                 try{
-                    canvas.selectSingleShape(pressedX, presedY);
-                    canvas.getSelectedShape().move(releasedX - pressedX, releasedY - presedY);
+                    canvas.selectSingleShape(pressedX, pressedY);
+                    canvas.getSelectedShape().move(releasedX - pressedX, releasedY - pressedY);
                     canvas.repaint();
                 }catch(Exception ex){
-                    canvas.selectMultipleShapes(new Rectangle2D.Double(pressedX, presedY, releasedX - pressedX, releasedY - presedY));
+                    canvas.selectMultipleShapes(new Rectangle2D.Double(pressedX, pressedY, releasedX - pressedX, releasedY - pressedY));
                 }
                 break;
             case ASSOCIATION:
@@ -126,13 +128,13 @@ public class CanvasListener implements MouseListener{
 
     private void cleanXY(){
         pressedX = -1;
-        presedY = -1;
+        pressedY = -1;
         releasedX = -1;
         releasedY = -1;
     }
 
     private boolean isSameXY(){
-        return pressedX == releasedX && presedY == releasedY;
+        return pressedX == releasedX && pressedY == releasedY;
     }
     
 }

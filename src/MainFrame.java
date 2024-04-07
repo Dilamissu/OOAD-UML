@@ -37,7 +37,7 @@ public class MainFrame extends JFrame{
         JButton ungroupButton = HelperMethods.createButton("Ungroup",false);
         ungroupButton.addActionListener(e -> {
             if(canvas.getSelectedShape() instanceof Group){
-                canvas.ungroup((Group)canvas.getSelectedShape());
+                canvas.ungroupSelectedGroup();
             }
         });
 

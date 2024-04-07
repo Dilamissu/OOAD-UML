@@ -93,7 +93,7 @@ public class Canvas extends JPanel{
         selectedShape = null;
         for(UMLObject shape: umlObjects){
             shape.unselect();
-            if(shape.isXYInside(x, y)){
+            if(shape.isXYInside(x, y) && shape.isSelectable()){
                 if(found == false){
                     selectedShape = shape;
                     found = true;
@@ -125,7 +125,7 @@ public class Canvas extends JPanel{
 
     public void selectMultipleShapes(Rectangle2D selectionArea){
         for(UMLObject shape: umlObjects){
-            if(selectionArea.contains(shape.getLeftX(), shape.getLeftY()) && selectionArea.contains(shape.getRightX(), shape.getRightY())){
+            if(selectionArea.contains(shape.getLeftX(), shape.getLeftY()) && selectionArea.contains(shape.getRightX(), shape.getRightY()) && shape.isSelectable()){
                 shape.select();
             }
         }
@@ -157,21 +157,25 @@ public class Canvas extends JPanel{
                 group.addObject(shape);
             }
         }
+        group.initialXY();
         groups.add(group);
         System.out.println("Grouped " + group.getObjects().size() + " shapes.");
         repaint();
         revalidate();
     }
 
-    public void ungroup(Group group){
+    public void ungroupSelectedGroup(){
+        if(selectedShape instanceof UMLObject){
+            throw new IllegalArgumentException("Selected shape is not a group.");
+        }
         for(UMLObject shape: umlObjects){
-            if(shape.isGrouped() &&  shape.getGroup() == group){
+            if(shape.isGrouped()){
                 shape.ungroup();
                 shape.selectable();
             }
         }
-        group.removeAll();
-        groups.remove(group);
+        ((Group)selectedShape).removeAll();
+        groups.remove(((Group)selectedShape));
 
         getNewDepth();
         System.out.println(groups.size() + " groups in canvas.");

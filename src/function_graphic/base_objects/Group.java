@@ -3,6 +3,7 @@ package function_graphic.base_objects;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import function_graphic.base_interfaces.*;
@@ -12,30 +13,36 @@ public class Group implements FuntionGraphic, Selectable{
     protected int leftX, leftY, rightX, rightY;
     protected boolean selected;
     protected List<UMLObject> objects = new ArrayList<UMLObject>();
+    protected Rectangle2D rect;
     
     public Group(int depth){
         this.depth = depth;
     }
-    
-    @Override
-    public void draw(Graphics g) {
-        int minX = Integer.MAX_VALUE;
-        int minY = Integer.MAX_VALUE;
-        int maxX = 0;
-        int maxY = 0;
-        Graphics2D g2 = (Graphics2D) g;
+
+    public void initialXY(){
+        leftX = Integer.MAX_VALUE;
+        leftY = Integer.MAX_VALUE;
+        rightX = 0;
+        rightY = 0;
+
         System.out.println("Group " + this + " drawing." + objects.size());
         for(UMLObject object: objects){
             System.out.println("Group " + this + " object: " + object);
-            minX = Math.min(minX, object.getLeftX());
-            minY = Math.min(minY, object.getLeftY());
-            maxX = Math.max(maxX, object.getRightX());
-            maxY = Math.max(maxY, object.getRightY());
+            leftX = Math.min(leftX, object.getLeftX());
+            leftY = Math.min(leftY, object.getLeftY());
+            rightX = Math.max(rightX, object.getRightX());
+            rightY = Math.max(rightY, object.getRightY());
         }
+        rect = new Rectangle2D.Double(leftX, leftY, rightX - leftX, rightY - leftY);
+    }
+    
+    @Override
+    public void draw(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
         if(selected){
             g2.setColor(Color.red);
         }
-        g2.drawRect(minX, minY, maxX - minX, maxY - minY);
+        g2.draw(rect);
     }
 
     public void addObject(UMLObject object){
@@ -71,6 +78,7 @@ public class Group implements FuntionGraphic, Selectable{
 
     @Override
     public boolean isXYInside(int x, int y) {
+        System.out.println("Group " + this + " isXYInside: " + x + ", " + y + " leftX: " + leftX + " rightX: " + rightX + " leftY: " + leftY + " rightY: " + rightY);
         if (x >= leftX && x <= rightX && y >= leftY && y <= rightY){
             return true;
         }else{
@@ -85,7 +93,12 @@ public class Group implements FuntionGraphic, Selectable{
 
     @Override
     public void move(int deltaX, int deltaY) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
+        leftX += deltaX;
+        leftY += deltaY;
+        
+        rect.setFrame(rect.getX() + deltaX, rect.getY() + deltaY, rect.getWidth(), rect.getHeight());
+        for(UMLObject object: objects){
+            object.move(deltaX, deltaY);
+        }
     }
 }

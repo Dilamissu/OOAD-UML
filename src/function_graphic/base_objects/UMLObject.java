@@ -15,8 +15,7 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
     protected List<UMLLine> connectedLinesUp = new ArrayList<UMLLine>();
     protected List<UMLLine> connectedLinesDown = new ArrayList<UMLLine>();
     protected List<UMLLine> connectedLinesLeft = new ArrayList<UMLLine>();
-    protected List<UMLLine> connectedLinesRight = new ArrayList<UMLLine>();
-    protected String name;    
+    protected List<UMLLine> connectedLinesRight = new ArrayList<UMLLine>();  
     int rectOffset = 5;
     protected Rectangle upRect, downRect, leftRect, rightRect = new Rectangle();
 
@@ -152,11 +151,11 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
     public int getDepth() {
         return depth;
     }
-    
-    public String getName(){
-        return name;
+
+    public boolean isSelectable(){
+        return selectable;
     }
-    
+
     public boolean isGrouped(){
         return grouped;
     }
@@ -195,10 +194,6 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
     
     public void setDepth(int depth){
         this.depth = depth;
-    }
-    
-    public void setName(String name){
-        this.name = name;
     }
 
     public void moveRects(int deltaX, int deltaY){

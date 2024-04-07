@@ -65,7 +65,7 @@ public class UseCase extends UMLObject{
             g2.fill(leftRect);
             g2.fill(rightRect);
         }
-        g2.drawString(getName(), leftX + width/3, leftY + height/3);
+        g2.drawString(getName(), leftX + width/4, leftY + height/4);
     }
 
     @Override

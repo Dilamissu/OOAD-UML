@@ -1,6 +1,7 @@
 import javax.swing.*;
 
 import function_graphic.base_objects.Group;
+import function_graphic.base_objects.UMLObject;
 import function_graphic.enums.ToolType;
 import helper.HelperMethods;
 import swing_sub_class.*;
@@ -25,7 +26,28 @@ public class MainFrame extends JFrame{
         JMenu fileMenuButton = new JMenu("File");
         JMenu editMenuButton = new JMenu("Edit");
 
+        JMenuItem newItem = new JMenuItem("New");
+        newItem.addActionListener(e -> {
+            canvas.removeAll();
+        });
+
+        fileMenuButton.add(newItem);
+
         JMenuItem changeObjectNameItem = new JMenuItem("Change Object Name");
+        changeObjectNameItem.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                String newName = "";
+                if(canvas.getSelectedShape() instanceof UMLObject){
+                    newName = JOptionPane.showInputDialog(getParent(),  "Please input new component name", ((UMLObject)canvas.getSelectedShape()).getName());
+                    if(newName == null){
+                        return;
+                    }
+                    ((UMLObject)canvas.getSelectedShape()).setName(newName);
+                    canvas.repaint();
+                }
+            }
+        });
 
         JMenuItem groupItem = new JMenuItem("Group");
         groupItem.addActionListener(e -> {
@@ -121,6 +143,7 @@ public class MainFrame extends JFrame{
         canvasPanel.addMouseMotionListener(canvasListener);
         canvasPanel.add(canvas);
     }
+    
     public MainFrame(){
 
         JPanel toolbarPanel = new JPanel();

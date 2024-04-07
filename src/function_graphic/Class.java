@@ -6,26 +6,32 @@ import function_graphic.base_graphics.UMLObject;
 
 public class Class extends UMLObject{
     Rectangle rect;
+    
     public Class(){
         super(false);
         rect = new Rectangle(leftX, leftY, width, height);
     }
+    
     public Class(int leftX, int leftY){
         super(leftX, leftY, false);
         rect = new Rectangle(leftX, leftY, width, height);
     }
+    
     public Class(int leftX, int leftY, int depth){
         super(leftX, leftY, depth, false);
         rect = new Rectangle(leftX, leftY, width, height);
     }
+    
     @Override
     public void select() {
         selected = true;
     }
+    
     @Override
     public void unselect() {
         selected = false;
     }
+    
     @Override
     public void move(int deltaX, int deltaY) {
         leftX += deltaX;
@@ -35,16 +41,19 @@ public class Class extends UMLObject{
         moveRects(deltaX, deltaY);
         moveLine(deltaX, deltaY);
     }
+    
     @Override
     public void group() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'group'");
     }
+    
     @Override
     public void ungroup() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'ungroup'");
     }
+    
     @Override
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;

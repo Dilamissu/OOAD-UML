@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import function_graphic.enums.Directions;
 
 public class HelperMethods {
+    
     public static JButton createButton(String text, boolean isBordered){
         JButton button = new JButton(text);
         
@@ -15,9 +16,7 @@ public class HelperMethods {
         }
         return button;
     }
-    public static double distance(int x1, int y1, int x2, int y2){
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-    }
+
     public static double ratio(int x1, int y1, int x2, int y2){
         return (double)(y2 - y1) / (double)(x2 - x1);
     }

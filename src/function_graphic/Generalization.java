@@ -12,12 +12,14 @@ import helper.HelperMethods;
 
 public class Generalization extends UMLLine {
     Directions direction;
+    
     public Generalization(int x1, int y1, int x2, int y2, UMLObject from, UMLObject to) {
         super(x1, y1, x2, y2, from, to);
         int offset = 7;
         direction = HelperMethods.getDirection(stratX, startY, endX, endY);
         shapes.addAll(getLine2Ds(direction, stratX, startY, endX, endY, offset));
     }
+    
     @Override
     public void move(int dx, int dy, UMLObject object) {
         if(object.equals(from)){
@@ -32,6 +34,7 @@ public class Generalization extends UMLLine {
         direction = HelperMethods.getDirection(stratX, startY, endX, endY);
         shapes.addAll(getLine2Ds(direction, stratX, startY, endX, endY, offset));
     }
+    
     @Override
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
@@ -40,6 +43,7 @@ public class Generalization extends UMLLine {
             g2.fill(shape);
         }
     }
+    
     public static List<Shape> getLine2Ds(Directions direction,int x1, int y1, int x2, int y2, int offset){
         List<Shape> shapes = new ArrayList<Shape>();
         Polygon polygon = new Polygon();

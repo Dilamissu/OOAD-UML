@@ -3,6 +3,8 @@ package swing_sub_class;
 import java.util.*;
 import javax.swing.*;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -14,6 +16,7 @@ public class Canvas extends JPanel{
     UMLObject selectedShape = null;
     List<UMLObject> umlObjects = new ArrayList<UMLObject>();
     List<UMLLine> umlLines = new ArrayList<UMLLine>();
+    Shape indecateShape = null;
 
     public Canvas(){
         super();
@@ -25,24 +28,6 @@ public class Canvas extends JPanel{
         selectShape(shape);
         System.out.println(umlObjects.size() + " objects in canvas.");
         repaint();
-    }
-
-    public void removeObject(UMLObject shape){
-        for(UMLLine umlLine: umlLines){
-            if(umlLine.getFrom() == shape || umlLine.getTo() == shape){
-                umlLines.remove(umlLine);
-            }
-        }
-        umlObjects.remove(shape);
-        repaint();
-        System.out.println(umlObjects.size() + " objects in canvas.");
-    }
-
-    public void removeAll(){
-        umlObjects.clear();
-        umlLines.clear();
-        repaint();
-        System.out.println("All shapes removed.");
     }
 
     public void addLine(UMLLine umlLine){
@@ -66,6 +51,31 @@ public class Canvas extends JPanel{
         System.out.println(umlLines.size() + " lines in canvas.");
     }
 
+    public void removeObject(UMLObject shape){
+        for(UMLLine umlLine: umlLines){
+            if(umlLine.getFrom() == shape || umlLine.getTo() == shape){
+                umlLines.remove(umlLine);
+            }
+        }
+        umlObjects.remove(shape);
+        repaint();
+        System.out.println(umlObjects.size() + " objects in canvas.");
+    }
+
+    public void removeAll(){
+        umlObjects.clear();
+        umlLines.clear();
+        repaint();
+        System.out.println("All shapes removed.");
+    }
+
+    public void selectShape(UMLObject shape){
+        unselectAllShape();
+        shape.select();
+        repaint();
+        revalidate();
+    }
+
     public void selectSingleShape(int x, int y){
         found = false;
         selectedShape = null;
@@ -86,13 +96,6 @@ public class Canvas extends JPanel{
             selectedShape.select();
         }
         System.out.println("Selected shape: " + selectedShape);
-        repaint();
-        revalidate();
-    }
-
-    public void selectShape(UMLObject shape){
-        unselectAllShape();
-        shape.select();
         repaint();
         revalidate();
     }
@@ -131,16 +134,26 @@ public class Canvas extends JPanel{
         revalidate();
     }
 
+    public void setIndecateShape(Shape shape){
+        indecateShape = shape;
+        repaint();
+        revalidate();
+    }
+
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        if(indecateShape != null){
+            g2.draw(indecateShape);
+        }
         for(UMLObject funtionGraphic: umlObjects){
             // System.out.println("Drawing shape: " + funtionGraphic);
-            funtionGraphic.draw(g);
+            funtionGraphic.draw(g2);
         }
         for(UMLLine umlLine: umlLines){
             // System.out.println("Drawing line: " + umlLine);
-            umlLine.draw(g);
+            umlLine.draw(g2);
         }
     }
     

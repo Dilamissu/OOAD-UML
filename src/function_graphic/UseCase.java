@@ -13,10 +13,12 @@ public class UseCase extends UMLObject{
     public UseCase(){
         super(true);
     }
+    
     public UseCase(int leftX, int leftY){
         super(leftX, leftY, true);
         ellipse2d = new Ellipse2D.Double(leftX, leftY, width, height);
     }
+    
     public UseCase(int leftX, int leftY, int depth){
         super(leftX, leftY, depth, true);
         ellipse2d = new Ellipse2D.Double(leftX, leftY, width, height);

@@ -91,7 +91,9 @@ public class MainFrame extends JFrame{
     private void addCanvasComponents(Container canvasPanel){
         canvas.setBackground(Color.white);
         canvas.addMouseListener(canvasListener);
+        canvas.addMouseMotionListener(canvasListener);
         canvasPanel.addMouseListener(canvasListener);
+        canvasPanel.addMouseMotionListener(canvasListener);
         canvasPanel.add(canvas);
     }
     public MainFrame(){

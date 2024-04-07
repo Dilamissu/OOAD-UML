@@ -1,6 +1,9 @@
 package swing_sub_class;
 
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -9,7 +12,7 @@ import function_graphic.Class;
 import function_graphic.base_graphics.*;
 import function_graphic.enums.ToolType;
 
-public class CanvasListener implements MouseListener{
+public class CanvasListener implements MouseListener, MouseMotionListener{
     ToolType toolType = ToolType.SELECT;
     Canvas canvas;
 
@@ -27,7 +30,7 @@ public class CanvasListener implements MouseListener{
     }
 
     @Override
-    public void mouseClicked(java.awt.event.MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {
         cleanXY();
         pressedX = e.getX();
         pressedY = e.getY();
@@ -53,16 +56,19 @@ public class CanvasListener implements MouseListener{
     }
 
     @Override
-    public void mousePressed(java.awt.event.MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
         cleanXY();
         pressedX = e.getX();
         pressedY = e.getY();
     }
 
     @Override
-    public void mouseReleased(java.awt.event.MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {
         releasedX = e.getX();
         releasedY = e.getY();
+
+        canvas.setIndecateShape(null);
+
         if(isSameXY()){
             cleanXY();
             return;
@@ -118,14 +124,36 @@ public class CanvasListener implements MouseListener{
     }
 
     @Override
-    public void mouseEntered(java.awt.event.MouseEvent e) {
+    public void mouseEntered(MouseEvent e) {
     }
 
     @Override
-    public void mouseExited(java.awt.event.MouseEvent e) {
+    public void mouseExited(MouseEvent e) {
         cleanXY();
     }
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        switch (toolType) {
+            case SELECT:
+                canvas.setIndecateShape(new Rectangle2D.Double(pressedX, pressedY, e.getX() - pressedX, e.getY() - pressedY));
+                canvas.repaint();
+                break;
+            case ASSOCIATION:
+            case GENERALIZATION:
+            case COMPOSITION:
+                canvas.setIndecateShape(new Line2D.Double(pressedX, pressedY, e.getX(), e.getY()));
+                canvas.repaint();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+    }
+    
     private void cleanXY(){
         pressedX = -1;
         pressedY = -1;
@@ -136,5 +164,5 @@ public class CanvasListener implements MouseListener{
     private boolean isSameXY(){
         return pressedX == releasedX && pressedY == releasedY;
     }
-    
+
 }

@@ -12,6 +12,7 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
     // leftX, leftY is the coordinate of the left top corner of the object
     protected Group group;
     protected int leftX, leftY, width, height, depth;
+    String name = "";
     protected List<UMLLine> connectedLinesUp = new ArrayList<UMLLine>();
     protected List<UMLLine> connectedLinesDown = new ArrayList<UMLLine>();
     protected List<UMLLine> connectedLinesLeft = new ArrayList<UMLLine>();
@@ -152,6 +153,10 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
         return depth;
     }
 
+    public String getName(){
+        return name;
+    }
+
     public boolean isSelectable(){
         return selectable;
     }
@@ -194,6 +199,10 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
     
     public void setDepth(int depth){
         this.depth = depth;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     public void moveRects(int deltaX, int deltaY){

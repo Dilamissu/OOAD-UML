@@ -9,19 +9,27 @@ public class Class extends UMLObject{
     
     public Class(){
         super(false);
+        setName("Class " + depth);
         rect = new Rectangle(leftX, leftY, width, height);
     }
     
     public Class(int leftX, int leftY){
         super(leftX, leftY, false);
+        setName("Class " + depth);
         rect = new Rectangle(leftX, leftY, width, height);
     }
     
     public Class(int leftX, int leftY, int depth){
         super(leftX, leftY, depth, false);
+        setName("Class " + depth);
         rect = new Rectangle(leftX, leftY, width, height);
     }
     
+    public void setDepth(int depth){
+        this.depth = depth;
+        setName("Class " + depth);
+    }
+
     @Override
     public void select() {
         selected = true;
@@ -60,6 +68,7 @@ public class Class extends UMLObject{
             g2.fill(leftRect);
             g2.fill(rightRect);
         }
+        g2.drawString(getName(), leftX + width/3, leftY + height/3);
     }
 
     public boolean isXYInside(int x, int y){

@@ -10,16 +10,24 @@ public class UseCase extends UMLObject{
 
     public UseCase(){
         super(true);
+        setName("UseCase " + depth);
     }
     
     public UseCase(int leftX, int leftY){
         super(leftX, leftY, true);
+        setName("UseCase " + depth);
         ellipse2d = new Ellipse2D.Double(leftX, leftY, width, height);
     }
     
     public UseCase(int leftX, int leftY, int depth){
         super(leftX, leftY, depth, true);
+        setName("UseCase " + depth);
         ellipse2d = new Ellipse2D.Double(leftX, leftY, width, height);
+    }
+
+    public void setDepth(int depth){
+        this.depth = depth;
+        setName("UseCase " + depth);
     }
 
     @Override
@@ -49,7 +57,7 @@ public class UseCase extends UMLObject{
         g2.setColor(Color.gray);
         g2.fill(ellipse2d);
         g2.setColor(Color.black);
-        g.drawOval(leftX, leftY, width, height);
+        g2.drawOval(leftX, leftY, width, height);
         if (selected) {
             g2.setColor(Color.black);
             g2.fill(upRect);
@@ -57,6 +65,7 @@ public class UseCase extends UMLObject{
             g2.fill(leftRect);
             g2.fill(rightRect);
         }
+        g2.drawString(getName(), leftX + width/3, leftY + height/3);
     }
 
     @Override

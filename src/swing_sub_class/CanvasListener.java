@@ -64,10 +64,12 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
         pressedY = e.getY();
         draggedX = pressedX;
         draggedY = pressedY;
-        try {
-            canvas.selectSingleShape(pressedX, pressedY);
-        } catch (Exception ex) {
-            System.out.println("Error: " + ex);
+        if(toolType == ToolType.SELECT){
+            try {
+                canvas.selectSingleShape(pressedX, pressedY);
+            } catch (Exception ex) {
+                System.out.println("Error: " + ex);
+            }
         }
     }
 

@@ -98,7 +98,7 @@ public class Canvas extends JPanel{
                 if(found == false){
                     selectedShape = shape;
                     found = true;
-                }else if (selectedShape.getDepth() > shape.getDepth()){
+                }else if (selectedShape.getDepth() < shape.getDepth()){
                     selectedShape = shape;                    
                 }
             }
@@ -109,7 +109,7 @@ public class Canvas extends JPanel{
                 if(found == false){
                     selectedShape = group;
                     found = true;
-                }else if (selectedShape.getDepth() > group.getDepth()){
+                }else if (selectedShape.getDepth() < group.getDepth()){
                     selectedShape = group;                    
                 }
             }
@@ -156,6 +156,7 @@ public class Canvas extends JPanel{
 
     public void groupSelectedShapes(){
         Group group = new Group(depth);
+        depth++;
         for(UMLObject shape: umlObjects){
             if(shape.isSelected()){
                 shape.group(group);

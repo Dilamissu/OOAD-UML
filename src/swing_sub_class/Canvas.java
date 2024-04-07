@@ -77,6 +77,7 @@ public class Canvas extends JPanel{
     public void removeAll(){
         umlObjects.clear();
         umlLines.clear();
+        groups.clear();
         repaint();
         System.out.println("All shapes removed.");
     }
@@ -124,9 +125,15 @@ public class Canvas extends JPanel{
     }
 
     public void selectMultipleShapes(Rectangle2D selectionArea){
+        selectedShape = null;
         for(UMLObject shape: umlObjects){
             if(selectionArea.contains(shape.getLeftX(), shape.getLeftY()) && selectionArea.contains(shape.getRightX(), shape.getRightY()) && shape.isSelectable()){
                 shape.select();
+            }
+        }
+        for(Group group: groups){
+            if(selectionArea.contains(group.getLeftX(), group.getLeftY()) && selectionArea.contains(group.getRightX(), group.getRightY())){
+                group.select();
             }
         }
         repaint();

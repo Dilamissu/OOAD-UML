@@ -17,39 +17,49 @@ public class MainFrame extends JFrame{
 
     // Toolbar components
     private void addToolbarComponents(Container toolbarPanel){
-        JToolBar mainToolBar = new JToolBar();
+        JMenuBar mainToolBar = new JMenuBar();
         mainToolBar.setBorderPainted(true);
-        mainToolBar.setFloatable(false);
-        mainToolBar.addSeparator(new Dimension(5, 0));
         mainToolBar.setBackground(new Color(204, 204, 204));
         
         
-        JButton fileButton = HelperMethods.createButton("File",false);
-        JButton editButton = HelperMethods.createButton("Edit",false);
-        JButton cleanButton = HelperMethods.createButton("Clean",false);
-        cleanButton.addActionListener(e -> {
-            canvas.removeAll();
-        });
-        JButton groupButton = HelperMethods.createButton("Group",false);
-        groupButton.addActionListener(e -> {
+        JMenu fileMenuButton = new JMenu("File");
+        JMenu editMenuButton = new JMenu("Edit");
+
+        JMenuItem changeObjectNameItem = new JMenuItem("Change Object Name");
+
+        JMenuItem groupItem = new JMenuItem("Group");
+        groupItem.addActionListener(e -> {
             canvas.groupSelectedShapes();
         });
-        JButton ungroupButton = HelperMethods.createButton("Ungroup",false);
-        ungroupButton.addActionListener(e -> {
+
+        JMenuItem ungroupItem = new JMenuItem("Ungroup");
+        ungroupItem.addActionListener(e -> {
             if(canvas.getSelectedShape() instanceof Group){
                 canvas.ungroupSelectedGroup();
             }
         });
 
-        mainToolBar.add(fileButton);
+        editMenuButton.add(groupItem);
+        editMenuButton.add(ungroupItem);
+        editMenuButton.add(changeObjectNameItem);
+        // JButton cleanButton = HelperMethods.createButton("Clean",false);
+        // cleanButton.addActionListener(e -> {
+        //     canvas.removeAll();
+        // });
+        // JButton groupButton = HelperMethods.createButton("Group",false);
+        // groupButton.addActionListener(e -> {
+        //     canvas.groupSelectedShapes();
+        // });
+        // JButton ungroupButton = HelperMethods.createButton("Ungroup",false);
+        // ungroupButton.addActionListener(e -> {
+        //     if(canvas.getSelectedShape() instanceof Group){
+        //         canvas.ungroupSelectedGroup();
+        //     }
+        // });
+
+        mainToolBar.add(fileMenuButton);
         mainToolBar.add(Box.createRigidArea(new Dimension(5, 0)));
-        mainToolBar.add(editButton);
-        mainToolBar.add(Box.createRigidArea(new Dimension(5, 0)));
-        mainToolBar.add(cleanButton);
-        mainToolBar.add(Box.createRigidArea(new Dimension(5, 0)));
-        mainToolBar.add(groupButton);
-        mainToolBar.add(Box.createRigidArea(new Dimension(5, 0)));
-        mainToolBar.add(ungroupButton);
+        mainToolBar.add(editMenuButton);
 
         toolbarPanel.add(mainToolBar);
     }

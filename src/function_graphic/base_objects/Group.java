@@ -91,6 +91,22 @@ public class Group implements FuntionGraphic, Selectable{
         return depth;
     }
 
+    public int getLeftX(){
+        return leftX;
+    }
+
+    public int getLeftY(){
+        return leftY;
+    }
+
+    public int getRightX(){
+        return rightX;
+    }
+
+    public int getRightY(){
+        return rightY;
+    }
+
     @Override
     public void move(int deltaX, int deltaY) {
         leftX += deltaX;

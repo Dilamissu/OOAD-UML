@@ -8,28 +8,28 @@ public class Class extends UMLObject{
     Rectangle rect;
     public Class(){
         super(false);
-        rect = new Rectangle(super.leftX, super.leftY, super.width, super.height);
+        rect = new Rectangle(leftX, leftY, width, height);
     }
     public Class(int leftX, int leftY){
         super(leftX, leftY, false);
-        rect = new Rectangle(super.leftX, super.leftY, super.width, super.height);
+        rect = new Rectangle(leftX, leftY, width, height);
     }
     public Class(int leftX, int leftY, int depth){
         super(leftX, leftY, depth, false);
-        rect = new Rectangle(super.leftX, super.leftY, super.width, super.height);
+        rect = new Rectangle(leftX, leftY, width, height);
     }
     @Override
     public void select() {
-        super.selected = true;
+        selected = true;
     }
     @Override
     public void unselect() {
-        super.selected = false;
+        selected = false;
     }
     @Override
     public void move(int deltaX, int deltaY) {
-        super.leftX += deltaX;
-        super.leftY += deltaY;
+        leftX += deltaX;
+        leftY += deltaY;
         
         rect.setLocation(rect.x + deltaX, rect.y + deltaY);
         moveRects(deltaX, deltaY);

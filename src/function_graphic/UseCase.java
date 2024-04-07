@@ -15,27 +15,27 @@ public class UseCase extends UMLObject{
     }
     public UseCase(int leftX, int leftY){
         super(leftX, leftY, true);
-        ellipse2d = new Ellipse2D.Double(super.leftX, super.leftY, super.width, super.height);
+        ellipse2d = new Ellipse2D.Double(leftX, leftY, width, height);
     }
     public UseCase(int leftX, int leftY, int depth){
         super(leftX, leftY, depth, true);
-        ellipse2d = new Ellipse2D.Double(super.leftX, super.leftY, super.width, super.height);
+        ellipse2d = new Ellipse2D.Double(leftX, leftY, width, height);
     }
 
     @Override
     public void select() {
-        super.selected = true;
+        selected = true;
     }
 
     @Override
     public void unselect() {
-        super.selected = false;
+        selected = false;
     }
 
     @Override
     public void move(int deltaX, int deltaY) {
-        super.leftX += deltaX;
-        super.leftY += deltaY;
+        leftX += deltaX;
+        leftY += deltaY;
         
         ellipse2d.setFrame(ellipse2d.getX() + deltaX, ellipse2d.getY() + deltaY, ellipse2d.getWidth(), ellipse2d.getHeight());
         moveRects(deltaX, deltaY);

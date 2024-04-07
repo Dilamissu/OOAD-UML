@@ -1,12 +1,6 @@
 package helper;
 
-
-import java.awt.Polygon;
-import java.awt.Shape;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 
@@ -76,82 +70,6 @@ public class HelperMethods {
             return Directions.DOWN;
         }else{
             throw new IllegalArgumentException("The point is not on the shape");
-        }
-    }
-
-
-
-    public static List<Shape> getAssociationLine2Ds(Directions direction,int x1, int y1, int x2, int y2, int offset){
-        List<Shape> shapes = new ArrayList<Shape>();
-        switch (direction) {
-            case UP:
-                shapes.add(new Line2D.Double(x1, y1, x2, y2 + 2*offset));
-                shapes.add(new Line2D.Double(x2, y2 + 2*offset, x2, y2));
-                shapes.add(new Line2D.Double(x2, y2, x2 + offset, y2 + offset));
-                shapes.add(new Line2D.Double(x2, y2, x2 - offset, y2 + offset));
-                return shapes;
-            case DOWN:
-                shapes.add(new Line2D.Double(x1, y1, x2, y2 - 2*offset));
-                shapes.add(new Line2D.Double(x2, y2 - 2*offset, x2, y2));
-                shapes.add(new Line2D.Double(x2, y2, x2 + offset, y2 - offset));
-                shapes.add(new Line2D.Double(x2, y2, x2 - offset, y2 - offset));
-                return shapes;
-            case LEFT:
-                shapes.add(new Line2D.Double(x1, y1, x2 + 2*offset, y2));
-                shapes.add(new Line2D.Double(x2 + 2*offset, y2, x2, y2));
-                shapes.add(new Line2D.Double(x2, y2, x2 + offset, y2 + offset));
-                shapes.add(new Line2D.Double(x2, y2, x2 + offset, y2 - offset));
-                return shapes;
-            case RIGHT:
-                shapes.add(new Line2D.Double(x1, y1, x2 - 2*offset, y2));
-                shapes.add(new Line2D.Double(x2 - 2*offset, y2, x2, y2));
-                shapes.add(new Line2D.Double(x2, y2, x2 - offset, y2 + offset));
-                shapes.add(new Line2D.Double(x2, y2, x2 - offset, y2 - offset));
-                return shapes;
-            default:
-                return shapes;
-        }
-    }
-
-    public static List<Shape> getGeneralizationLine2Ds(Directions direction,int x1, int y1, int x2, int y2, int offset){
-        List<Shape> shapes = new ArrayList<Shape>();
-        Polygon polygon = new Polygon();
-        polygon.addPoint(x2, y2);
-        switch (direction) {
-            case UP:
-                polygon.addPoint(x2 + offset, y2 + offset);
-                polygon.addPoint(x2 - offset, y2 + offset);
-
-                shapes.add(new Line2D.Double(x1, y1, x2, y2 + offset));
-                shapes.add(polygon);
-
-                return shapes;
-            case DOWN:
-                polygon.addPoint(x2 + offset, y2 - offset);
-                polygon.addPoint(x2 - offset, y2 - offset);
-
-                shapes.add(new Line2D.Double(x1, y1, x2, y2 - offset));
-                shapes.add(polygon);
-
-                return shapes;
-            case LEFT:
-                polygon.addPoint(x2 + offset, y2 + offset);
-                polygon.addPoint(x2 + offset, y2 - offset);
-
-                shapes.add(new Line2D.Double(x1, y1, x2 + offset, y2));
-                shapes.add(polygon);
-                
-                return shapes;
-            case RIGHT:
-                polygon.addPoint(x2 - offset, y2 + offset);
-                polygon.addPoint(x2 - offset, y2 - offset);
-            
-                shapes.add(new Line2D.Double(x1, y1, x2 - offset, y2));
-                shapes.add(polygon);
-                
-                return shapes;
-            default:
-                return shapes;
         }
     }
 }

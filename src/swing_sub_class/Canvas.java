@@ -24,7 +24,7 @@ public class Canvas extends JPanel{
         umlObjects.add(shape);
         selectShape(shape);
         System.out.println(umlObjects.size() + " objects in canvas.");
-        this.repaint();
+        repaint();
     }
 
     public void removeObject(UMLObject shape){
@@ -34,21 +34,21 @@ public class Canvas extends JPanel{
             }
         }
         umlObjects.remove(shape);
-        this.repaint();
+        repaint();
         System.out.println(umlObjects.size() + " objects in canvas.");
     }
 
     public void removeAll(){
         umlObjects.clear();
         umlLines.clear();
-        this.repaint();
+        repaint();
         System.out.println("All shapes removed.");
     }
 
     public void addLine(UMLLine umlLine){
         umlLines.add(umlLine);
-        this.repaint();
-        this.revalidate();
+        repaint();
+        revalidate();
         UMLObject from = umlLine.getFrom();
         UMLObject to = umlLine.getTo();
 
@@ -86,15 +86,15 @@ public class Canvas extends JPanel{
             selectedShape.select();
         }
         System.out.println("Selected shape: " + selectedShape);
-        this.repaint();
-        this.revalidate();
+        repaint();
+        revalidate();
     }
 
     public void selectShape(UMLObject shape){
         unselectAllShape();
         shape.select();
-        this.repaint();
-        this.revalidate();
+        repaint();
+        revalidate();
     }
 
     public void selectMultipleShapes(Rectangle2D selectionArea){
@@ -103,8 +103,8 @@ public class Canvas extends JPanel{
                 shape.select();
             }
         }
-        this.repaint();
-        this.revalidate();
+        repaint();
+        revalidate();
     }
 
     public UMLObject getSelectedShape(){
@@ -117,8 +117,8 @@ public class Canvas extends JPanel{
             return;
         }
         selectedShape.move(deltaX, deltaY);
-        this.repaint();
-        this.revalidate();
+        repaint();
+        revalidate();
     }
 
     public void unselectAllShape(){
@@ -127,8 +127,8 @@ public class Canvas extends JPanel{
                 shape.unselect();
             }
         }
-        this.repaint();
-        this.revalidate();
+        repaint();
+        revalidate();
     }
 
     @Override

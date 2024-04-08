@@ -20,6 +20,8 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
     protected int pressedX, pressedY;
     protected int releasedX, releasedY;
     protected int draggedX, draggedY;
+    protected Selectable from = null, to = null;
+    protected Point2D fromPoint2d = null, toPoint2d = null;
 
     public CanvasListener(Canvas canvas){
         super();
@@ -70,7 +72,24 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
             } catch (Exception ex) {
                 System.out.println("Error: " + ex);
             }
+        }else if(toolType == ToolType.ASSOCIATION || toolType == ToolType.GENERALIZATION || toolType == ToolType.COMPOSITION){
+            try{
+                canvas.selectSingleShape(pressedX, pressedY);
+                from = canvas.getSelectedShape();
+                if(from.getClass() == Group.class){
+                    System.out.println("From is a group.");
+                    cleanXY();
+                    return;
+                }else{
+                    fromPoint2d = ((UMLObject)from).selectPoint(pressedX, pressedY);
+                }
+            }catch(Exception ex){
+                System.out.println("Error: " + ex);
+                cleanXY();
+                return;
+            }
         }
+        
     }
 
     @Override
@@ -83,21 +102,9 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
             return;
         }
 
-        Selectable from = null, to = null;
-        Point2D fromPoint2d = null, toPoint2d = null;
 
         try{
             if(toolType == ToolType.ASSOCIATION || toolType == ToolType.GENERALIZATION || toolType == ToolType.COMPOSITION){
-                canvas.selectSingleShape(pressedX, pressedY);
-                from = canvas.getSelectedShape();
-                if(from.getClass() == Group.class){
-                    System.out.println("From is a group.");
-                    cleanXY();
-                    return;
-                }else{
-                    fromPoint2d = ((UMLObject)from).selectPoint(pressedX, pressedY);
-                }
-
                 canvas.selectSingleShape(releasedX, releasedY);
                 to = canvas.getSelectedShape();
                 if(to.getClass() == Group.class){
@@ -138,7 +145,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
                 canvas.unselectAllShape();
                 break;           
         }
-        canvas.setIndecateShape(null);
+        cleanXY();
     }
 
     @Override
@@ -166,8 +173,10 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
             case ASSOCIATION:
             case GENERALIZATION:
             case COMPOSITION:
-                canvas.setIndecateShape(new Line2D.Double(pressedX, pressedY, e.getX(), e.getY()));
-                canvas.repaint();
+                if(from != null){
+                    canvas.setIndecateShape(new Line2D.Double(pressedX, pressedY, e.getX(), e.getY()));
+                    canvas.repaint();
+                }
                 break;
             default:
                 break;
@@ -183,6 +192,8 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
         pressedY = -1;
         releasedX = -1;
         releasedY = -1;
+        from = null;
+        to = null;
         canvas.setIndecateShape(null);
     }
 

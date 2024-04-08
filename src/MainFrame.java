@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class MainFrame extends JFrame{
     int ToolNumber = 6;
-    int windowWidth = 800, windowHeight = 600;
+    int windowWidth = 1920, windowHeight = 1080;
     Canvas canvas = new Canvas();
     CanvasListener canvasListener = new CanvasListener(canvas);
 

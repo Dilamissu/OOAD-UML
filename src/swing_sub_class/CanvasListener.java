@@ -80,7 +80,6 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
 
         if(isSameXY()){
             cleanXY();
-            canvas.setIndecateShape(null);
             return;
         }
 
@@ -93,6 +92,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
                 from = canvas.getSelectedShape();
                 if(from.getClass() == Group.class){
                     System.out.println("From is a group.");
+                    cleanXY();
                     return;
                 }else{
                     fromPoint2d = ((UMLObject)from).selectPoint(pressedX, pressedY);
@@ -102,12 +102,13 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
                 to = canvas.getSelectedShape();
                 if(to.getClass() == Group.class){
                     System.out.println("To is a group.");
+                    cleanXY();
                     return;
                 }else{
                     toPoint2d = ((UMLObject)to).selectPoint(releasedX, releasedY);
                 }
 
-                System.out.println("When mouse release, FromPoint: " + fromPoint2d + " toPoint: " + toPoint2d);
+                System.out.println("From: " + from + " To: " + to);
             }
             if(from != null && to != null && from.equals(to)){
                 System.out.println("From and to are the same object.");
@@ -115,6 +116,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
             }
         }catch(Exception ex){
             System.out.println("Error: " + ex);
+            cleanXY();
             return;
         }
         switch (toolType) {
@@ -145,8 +147,6 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
 
     @Override
     public void mouseExited(MouseEvent e) {
-        cleanXY();
-        canvas.setIndecateShape(null);
     }
 
     @Override
@@ -183,6 +183,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
         pressedY = -1;
         releasedX = -1;
         releasedY = -1;
+        canvas.setIndecateShape(null);
     }
 
     private boolean isSameXY(){

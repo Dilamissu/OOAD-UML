@@ -24,22 +24,7 @@ public class Class extends UMLObject{
         setName("Class " + depth);
         rect = new Rectangle(leftX, leftY, width, height);
     }
-    
-    public void setDepth(int depth){
-        this.depth = depth;
-        setName("Class " + depth);
-    }
 
-    @Override
-    public void select() {
-        selected = true;
-    }
-    
-    @Override
-    public void unselect() {
-        selected = false;
-    }
-    
     @Override
     public void move(int deltaX, int deltaY) {
         System.out.println("Class move from " + leftX + ", " + leftY + " to " + (leftX + deltaX) + ", " + (leftY + deltaY));
@@ -72,6 +57,7 @@ public class Class extends UMLObject{
         g2.drawString(getName(), leftX + width/4, leftY + height/4);
     }
 
+    @Override
     public boolean isXYInside(int x, int y){
         return rect.contains(x, y);
     }

@@ -74,6 +74,14 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
         rightRect = new Rectangle(leftX + width, leftY + height/2 - rectOffset, 2*rectOffset, 2*rectOffset);
     }
 
+
+    public void select(){
+        selected = true;
+    }
+
+    public void unselect(){
+        selected = false;
+    }
     // Already make sure contain the point
     // Return the point that will be connected
     public Point2D selectPoint(int x,int y) {

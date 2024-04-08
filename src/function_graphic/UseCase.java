@@ -25,21 +25,6 @@ public class UseCase extends UMLObject{
         ellipse2d = new Ellipse2D.Double(leftX, leftY, width, height);
     }
 
-    public void setDepth(int depth){
-        this.depth = depth;
-        setName("UseCase " + depth);
-    }
-
-    @Override
-    public void select() {
-        selected = true;
-    }
-
-    @Override
-    public void unselect() {
-        selected = false;
-    }
-
     @Override
     public void move(int deltaX, int deltaY) {
         System.out.println("UseCase move from " + leftX + ", " + leftY + " to " + (leftX + deltaX) + ", " + (leftY + deltaY));

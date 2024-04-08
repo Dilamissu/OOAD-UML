@@ -155,6 +155,7 @@ public class Canvas extends JPanel{
     }
 
     public void groupSelectedShapes(){
+        int count = 0;
         Group group = new Group(depth);
         depth++;
         for(UMLObject shape: umlObjects){
@@ -163,11 +164,24 @@ public class Canvas extends JPanel{
                 shape.unselect();
                 shape.unselectable();
                 group.addObject(shape);
+                count++;
             }
+        }
+        for(Group g: groups){
+            if(g.isSelected()){
+                g.group(group);
+                g.unselect();
+                group.addObject(g);
+                count++;
+            }
+        }
+        if(count == 1){
+            selectedShape = group;
+            ungroupSelectedGroup();
         }
         group.initialXY();
         groups.add(group);
-        System.out.println("Grouped " + group.getObjects().size() + " shapes.");
+        System.out.println("getLeftX: " + group.getLeftX() + " getLeftY: " + group.getLeftY() + " getRightX: " + group.getRightX() + " getRightY: " + group.getRightY());
         repaint();
         revalidate();
     }
@@ -180,6 +194,11 @@ public class Canvas extends JPanel{
             if(shape.isGrouped()){
                 shape.ungroup();
                 shape.selectable();
+            }
+        }
+        for(Group group: groups){
+            if(group.isGrouped()){
+                group.ungroup();
             }
         }
         ((Group)selectedShape).removeAll();
@@ -196,6 +215,11 @@ public class Canvas extends JPanel{
         for(UMLObject shape: umlObjects){
             if (shape.isSelected()) {
                 shape.unselect();
+            }
+        }
+        for(Group group: groups){
+            if (group.isSelected()) {
+                group.unselect();
             }
         }
         repaint();

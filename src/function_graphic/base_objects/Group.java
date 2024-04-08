@@ -12,8 +12,9 @@ public class Group implements FuntionGraphic, Selectable{
     protected int depth;
     protected int leftX, leftY, rightX, rightY;
     protected boolean selected;
-    protected List<UMLObject> objects = new ArrayList<UMLObject>();
+    protected List<Selectable> objects = new ArrayList<Selectable>();
     protected Rectangle2D rect;
+    protected Group parentGroup = null, childGroup = null;
     
     public Group(int depth){
         this.depth = depth;
@@ -25,28 +26,35 @@ public class Group implements FuntionGraphic, Selectable{
         rightX = 0;
         rightY = 0;
 
-        System.out.println("Group " + this + " drawing." + objects.size());
-        for(UMLObject object: objects){
+        for(Selectable object: objects){
             System.out.println("Group " + this + " object: " + object);
             leftX = Math.min(leftX, object.getLeftX());
             leftY = Math.min(leftY, object.getLeftY());
             rightX = Math.max(rightX, object.getRightX());
             rightY = Math.max(rightY, object.getRightY());
         }
+        System.out.println("Group " + this + " initialXY: " + leftX + ", " + leftY + ", " + rightX + ", " + rightY);
         rect = new Rectangle2D.Double(leftX, leftY, rightX - leftX, rightY - leftY);
     }
     
     @Override
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        if(selected){
-            g2.setColor(Color.red);
+        if(parentGroup == null){
+            if(selected){
+                g2.setColor(Color.red);
+            }else{
+                g2.setColor(Color.black);
+            }
+            g2.draw(rect);
+        }else{
+            parentGroup.draw(g2);
         }
-        g2.draw(rect);
     }
 
-    public void addObject(UMLObject object){
+    public void addObject(Selectable object){
         objects.add(object);
+        initialXY();
     }
 
     public void removeObject(UMLObject object){
@@ -57,7 +65,7 @@ public class Group implements FuntionGraphic, Selectable{
         objects.clear();
     }
 
-    public List<UMLObject> getObjects(){
+    public List<Selectable> getObjects(){
         return objects;
     }
 
@@ -113,8 +121,27 @@ public class Group implements FuntionGraphic, Selectable{
         leftY += deltaY;
         
         rect.setFrame(rect.getX() + deltaX, rect.getY() + deltaY, rect.getWidth(), rect.getHeight());
-        for(UMLObject object: objects){
+        System.out.println("rect: " + rect.getX() + ", " + rect.getY() + ", " + (rect.getX() + rect.getWidth()) + ", " + (rect.getY() + rect.getHeight()));
+        for(Selectable object: objects){
             object.move(deltaX, deltaY);
+        }
+    }
+
+    public void group(Group group) {
+        parentGroup = group;
+        group.initialXY();
+        group.childGroup = this;
+    }
+
+    public boolean isGrouped(){
+        return parentGroup != null;
+    }
+
+    public void ungroup() {
+        if(parentGroup != null){
+            parentGroup.removeAll();
+            parentGroup.childGroup = null;
+            parentGroup = null;
         }
     }
 }

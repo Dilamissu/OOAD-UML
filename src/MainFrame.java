@@ -88,6 +88,8 @@ public class MainFrame extends JFrame{
     }
     // Selection panel
     private void addSelectionComponents(Container selectionPanel){
+        JButton[] buttons = new JButton[ToolNumber];
+        final Color selectedColor = Color.gray;
         /* 
          * Function to add selection components to the selection panel
          * select
@@ -98,41 +100,75 @@ public class MainFrame extends JFrame{
          * use case
          */
         JButton selectButton = HelperMethods.createButton("Select",true);
+        final Color unselectedColor = selectButton.getBackground();
         selectButton.addActionListener(e -> {
             canvasListener.setToolType(ToolType.SELECT);
+            for(int i = 0; i < ToolNumber; i++){
+                buttons[i].setBackground(unselectedColor);
+            }
+            selectButton.setBackground(selectedColor);
         });
+        buttons[0] = selectButton;
 
         JButton associationButton = HelperMethods.createButton("Association",true);
         associationButton.addActionListener(e -> {
             canvasListener.setToolType(ToolType.ASSOCIATION);
+            for(int i = 0; i < ToolNumber; i++){
+                buttons[i].setBackground(unselectedColor);
+            }
+            associationButton.setBackground(selectedColor);
         });
+        buttons[1] = associationButton;
 
         JButton generalizationButton = HelperMethods.createButton("Generalization",true);
         generalizationButton.addActionListener(e -> {
             canvasListener.setToolType(ToolType.GENERALIZATION);
+            for(int i = 0; i < ToolNumber; i++){
+                buttons[i].setBackground(unselectedColor);
+            }
+            generalizationButton.setBackground(selectedColor);
         });
+        buttons[2] = generalizationButton;
 
         JButton compositionButton = HelperMethods.createButton("Composition",true);
         compositionButton.addActionListener(e -> {
             canvasListener.setToolType(ToolType.COMPOSITION);
-        }); 
+            for(int i = 0; i < ToolNumber; i++){
+                buttons[i].setBackground(unselectedColor);
+            }
+            compositionButton.setBackground(selectedColor);
+        });
+        buttons[3] = compositionButton;
 
         JButton classButton = HelperMethods.createButton("Class",true);
         classButton.addActionListener(e -> {
             canvasListener.setToolType(ToolType.CLASS);
+            for(int i = 0; i < ToolNumber; i++){
+                buttons[i].setBackground(unselectedColor);
+            }
+            classButton.setBackground(selectedColor);
         });
+        buttons[4] = classButton;
 
         JButton useCaseButton = HelperMethods.createButton("Use Case",true);
         useCaseButton.addActionListener(e -> {
             canvasListener.setToolType(ToolType.USECASE);
+            for(int i = 0; i < ToolNumber; i++){
+                buttons[i].setBackground(unselectedColor);
+            }
+            useCaseButton.setBackground(selectedColor);
         });
+        buttons[5] = useCaseButton;
 
-        selectionPanel.add(selectButton);
-        selectionPanel.add(associationButton);
-        selectionPanel.add(generalizationButton);
-        selectionPanel.add(compositionButton);
-        selectionPanel.add(classButton);
-        selectionPanel.add(useCaseButton);
+        for (int i = 0; i < ToolNumber; i++) {
+            selectionPanel.add(buttons[i]);
+        }
+        // selectionPanel.add(selectButton);
+        // selectionPanel.add(associationButton);
+        // selectionPanel.add(generalizationButton);
+        // selectionPanel.add(compositionButton);
+        // selectionPanel.add(classButton);
+        // selectionPanel.add(useCaseButton);
         
     }
 

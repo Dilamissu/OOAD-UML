@@ -78,6 +78,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
                 from = canvas.getSelectedShape();
                 if(from.getClass() == Group.class){
                     System.out.println("From is a group.");
+                    canvas.unselectAllShape();
                     cleanXY();
                     return;
                 }else{
@@ -109,6 +110,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
                 to = canvas.getSelectedShape();
                 if(to.getClass() == Group.class){
                     System.out.println("To is a group.");
+                    canvas.unselectAllShape();
                     cleanXY();
                     return;
                 }else{

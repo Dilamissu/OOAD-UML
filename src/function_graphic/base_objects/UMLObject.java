@@ -178,6 +178,7 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
     }
 
     public void selectable(){
+        System.out.println(this + " Selectable");
         selectable = true;
     }
 

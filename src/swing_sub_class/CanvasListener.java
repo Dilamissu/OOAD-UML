@@ -39,6 +39,8 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
         pressedX = e.getX();
         pressedY = e.getY();
 
+        System.out.println("Mouse clicked at " + pressedX + ", " + pressedY);
+
         switch (toolType) {
             case SELECT:
                 try {
@@ -160,6 +162,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        System.out.println("Mouse dragged at " + e.getX() + ", " + e.getY());
         switch (toolType) {
             case SELECT:
                 try{

@@ -11,5 +11,7 @@ public interface Selectable{
     public abstract int getLeftY();
     public abstract int getRightX();
     public abstract int getRightY();
+    public abstract int getWidth();
+    public abstract int getHeight();
 }
 

@@ -26,14 +26,16 @@ public class Group implements FuntionGraphic, Selectable{
         rightX = 0;
         rightY = 0;
 
+        if(objects.size() == 2){
+           System.out.println("Group " + this + " initialXY " + objects.get(0) + " " + objects.get(1)); 
+        }
+
         for(Selectable object: objects){
-            System.out.println("Group " + this + " object: " + object);
             leftX = Math.min(leftX, object.getLeftX());
             leftY = Math.min(leftY, object.getLeftY());
             rightX = Math.max(rightX, object.getRightX());
             rightY = Math.max(rightY, object.getRightY());
         }
-        System.out.println("Group " + this + " initialXY: " + leftX + ", " + leftY + ", " + rightX + ", " + rightY);
         rect = new Rectangle2D.Double(leftX, leftY, rightX - leftX, rightY - leftY);
     }
     
@@ -53,8 +55,12 @@ public class Group implements FuntionGraphic, Selectable{
     }
 
     public void addObject(Selectable object){
+        System.out.println("Object added to group");
+        System.out.println("Group before " + this + " leftX: " + leftX + " rightX: " + rightX);
+        System.out.println("Object " + object + " leftX: " + object.getLeftX() + " rightX: " + object.getRightX());
         objects.add(object);
         initialXY();
+        System.out.println("Group after " + this + " leftX: " + leftX + " rightX: " + rightX);
     }
 
     public void removeObject(UMLObject object){
@@ -86,7 +92,6 @@ public class Group implements FuntionGraphic, Selectable{
 
     @Override
     public boolean isXYInside(int x, int y) {
-        System.out.println("Group " + this + " isXYInside: " + x + ", " + y + " leftX: " + leftX + " rightX: " + rightX + " leftY: " + leftY + " rightY: " + rightY);
         if (x >= leftX && x <= rightX && y >= leftY && y <= rightY){
             return true;
         }else{
@@ -119,18 +124,21 @@ public class Group implements FuntionGraphic, Selectable{
     public void move(int deltaX, int deltaY) {
         leftX += deltaX;
         leftY += deltaY;
+        rightX += deltaX;
+        rightY += deltaY;
         
         rect.setFrame(rect.getX() + deltaX, rect.getY() + deltaY, rect.getWidth(), rect.getHeight());
-        System.out.println("rect: " + rect.getX() + ", " + rect.getY() + ", " + (rect.getX() + rect.getWidth()) + ", " + (rect.getY() + rect.getHeight()));
+        System.out.println("Group moved");
         for(Selectable object: objects){
+            System.out.println("Group " + this + " move object: " + object);
             object.move(deltaX, deltaY);
         }
     }
 
-    public void group(Group group) {
-        parentGroup = group;
-        group.initialXY();
-        group.childGroup = this;
+    public void group(Group parentGroup) {
+        this.parentGroup = parentGroup;
+        this.parentGroup.childGroup = this;
+        this.parentGroup.initialXY();
     }
 
     public boolean isGrouped(){
@@ -139,9 +147,21 @@ public class Group implements FuntionGraphic, Selectable{
 
     public void ungroup() {
         if(parentGroup != null){
-            parentGroup.removeAll();
-            parentGroup.childGroup = null;
-            parentGroup = null;
+            parentGroup.ungroup();
+        }else{
+            childGroup.parentGroup = null;
+            childGroup = null;
+            removeAll();
+            initialXY();
         }
     }
+
+    public int getWidth(){
+        return rightX - leftX;
+    }
+
+    public int getHeight(){
+        return rightY - leftY;
+    }
+
 }

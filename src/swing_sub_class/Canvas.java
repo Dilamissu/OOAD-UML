@@ -178,8 +178,10 @@ public class Canvas extends JPanel{
         }
         System.out.println("Grouped " + count + " shapes.");
         if(count == 1){
+            System.out.println("Only one shape selected, ungrouping.");
             selectedShape = group;
             ungroupSelectedGroup();
+            return;
         }
         groups.add(group);
 

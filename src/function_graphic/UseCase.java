@@ -57,5 +57,10 @@ public class UseCase extends UMLObject{
     public boolean isXYInside(int x, int y) {
         return ellipse2d.contains(x, y);
     }
+
+    public void setDepth(int depth){
+        this.depth = depth;
+        setName("UseCase " + depth);
+    }
     
 }

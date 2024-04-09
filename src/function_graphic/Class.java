@@ -61,4 +61,9 @@ public class Class extends UMLObject{
         return rect.contains(x, y);
     }
 
+    public void setDepth(int depth){
+        this.depth = depth;
+        setName("Class " + depth);
+    }
+
 }

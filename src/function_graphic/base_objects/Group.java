@@ -26,10 +26,6 @@ public class Group implements FuntionGraphic, Selectable{
         rightX = 0;
         rightY = 0;
 
-        if(objects.size() == 2){
-           System.out.println("Group " + this + " initialXY " + objects.get(0) + " " + objects.get(1)); 
-        }
-
         for(Selectable object: objects){
             leftX = Math.min(leftX, object.getLeftX());
             leftY = Math.min(leftY, object.getLeftY());
@@ -128,9 +124,11 @@ public class Group implements FuntionGraphic, Selectable{
         rightY += deltaY;
         
         rect.setFrame(rect.getX() + deltaX, rect.getY() + deltaY, rect.getWidth(), rect.getHeight());
-        System.out.println("Group moved");
+        if(parentGroup == null){
+            System.out.println("Top Layer");
+        }
         for(Selectable object: objects){
-            System.out.println("Group " + this + " move object: " + object);
+            System.out.println("move object: " + object);
             object.move(deltaX, deltaY);
         }
     }

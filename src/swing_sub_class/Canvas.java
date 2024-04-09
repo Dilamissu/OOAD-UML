@@ -133,7 +133,7 @@ public class Canvas extends JPanel{
             }
         }
         for(Group group: groups){
-            if(selectionArea.contains(group.getLeftX(), group.getLeftY()) && selectionArea.contains(group.getRightX(), group.getRightY())){
+            if(selectionArea.contains(group.getLeftX(), group.getLeftY()) && selectionArea.contains(group.getRightX(), group.getRightY()) && !group.isGrouped()){
                 group.select();
             }
         }
@@ -166,6 +166,7 @@ public class Canvas extends JPanel{
                 shape.unselectable();
                 group.addObject(shape);
                 count++;
+                System.out.println("Shape grouped: " + shape);
             }
         }
         for(Group g: groups){
@@ -174,9 +175,9 @@ public class Canvas extends JPanel{
                 g.unselect();
                 group.addObject(g);
                 count++;
+                System.out.println("Group grouped: " + g);
             }
         }
-        System.out.println("Grouped " + count + " shapes.");
         if(count == 1){
             System.out.println("Only one shape selected, ungrouping.");
             selectedShape = group;

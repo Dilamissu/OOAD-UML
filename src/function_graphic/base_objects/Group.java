@@ -51,12 +51,8 @@ public class Group implements FuntionGraphic, Selectable{
     }
 
     public void addObject(Selectable object){
-        System.out.println("Object added to group");
-        System.out.println("Group before " + this + " leftX: " + leftX + " rightX: " + rightX);
-        System.out.println("Object " + object + " leftX: " + object.getLeftX() + " rightX: " + object.getRightX());
         objects.add(object);
         initialXY();
-        System.out.println("Group after " + this + " leftX: " + leftX + " rightX: " + rightX);
     }
 
     public void removeObject(UMLObject object){
@@ -124,11 +120,7 @@ public class Group implements FuntionGraphic, Selectable{
         rightY += deltaY;
         
         rect.setFrame(rect.getX() + deltaX, rect.getY() + deltaY, rect.getWidth(), rect.getHeight());
-        if(parentGroup == null){
-            System.out.println("Top Layer");
-        }
         for(Selectable object: objects){
-            System.out.println("move object: " + object);
             object.move(deltaX, deltaY);
         }
     }

@@ -34,7 +34,6 @@ public class Canvas extends JPanel{
         depth++;
         umlObjects.add(shape);
         selectShape(shape);
-        System.out.println(umlObjects.size() + " objects in canvas.");
         repaint();
     }
 
@@ -56,7 +55,6 @@ public class Canvas extends JPanel{
                     to.getWidth(), to.getHeight())
                 );
 
-        System.out.println(umlLines.size() + " lines in canvas.");
     }
 
     public void removeObject(UMLObject shape){
@@ -71,7 +69,6 @@ public class Canvas extends JPanel{
         getNewDepth();
         umlObjects.remove(shape);
         repaint();
-        System.out.println(umlObjects.size() + " objects in canvas.");
     }
     
     public void removeAll(){
@@ -79,7 +76,6 @@ public class Canvas extends JPanel{
         umlLines.clear();
         groups.clear();
         repaint();
-        System.out.println("All shapes removed.");
     }
 
     public void selectShape(UMLObject shape){
@@ -114,13 +110,11 @@ public class Canvas extends JPanel{
                 }
             }
         }
-        System.out.println("Selected shape: " + selectedShape + " in x, y: " + selectedShape.getLeftX() + ", " + selectedShape.getLeftY() + " to " + selectedShape.getRightX() + ", " + selectedShape.getRightY());
         if(!found){
             throw new IllegalArgumentException("No shape found at: " + x + ", " + y);
         }else{
             selectedShape.select();
         }
-        System.out.println("Selected shape: " + selectedShape);
         repaint();
         revalidate();
     }
@@ -166,7 +160,6 @@ public class Canvas extends JPanel{
                 shape.unselectable();
                 group.addObject(shape);
                 count++;
-                System.out.println("Shape grouped: " + shape);
             }
         }
         for(Group g: groups){
@@ -175,11 +168,9 @@ public class Canvas extends JPanel{
                 g.unselect();
                 group.addObject(g);
                 count++;
-                System.out.println("Group grouped: " + g);
             }
         }
         if(count == 1){
-            System.out.println("Only one shape selected, ungrouping.");
             selectedShape = group;
             ungroupSelectedGroup();
             return;
@@ -252,15 +243,12 @@ public class Canvas extends JPanel{
             g2.draw(indecateShape);
         }
         for(UMLObject funtionGraphic: umlObjects){
-            // System.out.println("Drawing shape: " + funtionGraphic);
             funtionGraphic.draw(g2);
         }
         for(UMLLine umlLine: umlLines){
-            // System.out.println("Drawing line: " + umlLine);
             umlLine.draw(g2);
         }
         for(Group group: groups){
-            // System.out.println("Drawing group: " + group);
             group.draw(g2);
         }
     }

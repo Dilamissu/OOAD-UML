@@ -29,7 +29,6 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
     }
 
     public void setToolType(ToolType toolType){
-        System.out.println("Tool type set to: " + toolType);
         this.toolType = toolType;
     }
 
@@ -38,8 +37,6 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
         cleanXY();
         pressedX = e.getX();
         pressedY = e.getY();
-
-        System.out.println("Mouse clicked at " + pressedX + ", " + pressedY);
 
         switch (toolType) {
             case SELECT:
@@ -56,7 +53,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
                 canvas.addObject(new UseCase(pressedX, pressedY));
                 break;
             default:
-            System.out.println("Tool type not supported.");
+                System.out.println("Tool type not supported.");
                 break;
         }
     }
@@ -118,8 +115,6 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
                 }else{
                     toPoint2d = ((UMLObject)to).selectPoint(releasedX, releasedY);
                 }
-
-                System.out.println("From: " + from + " To: " + to);
             }
             if(from != null && to != null && from.equals(to)){
                 System.out.println("From and to are the same object.");
@@ -162,7 +157,6 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        System.out.println("Mouse dragged at " + e.getX() + ", " + e.getY());
         switch (toolType) {
             case SELECT:
                 try{

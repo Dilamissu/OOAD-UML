@@ -92,29 +92,24 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
             // Down or left
             if((deltaY - height)/deltaX < -ratio){
                 // left
-                System.out.println("Select left");
                 return new Point2D.Double(leftX, leftY + height / 2);
             }else{
                 // down
-                System.out.println("Select down");
                 return new Point2D.Double(leftX + width / 2, leftY + height);
             }
         }else{
             // Up or right
             if((deltaY - height)/deltaX < -ratio){
                 // up
-                System.out.println("Select up");
                 return new Point2D.Double(leftX + width / 2, leftY);
             }else{
                 // right
-                System.out.println("Select right");
                 return new Point2D.Double(leftX + width, leftY + height / 2);
             }
         }
     }
 
     public void addConnectedLine(UMLLine line, Directions position){
-        System.out.println("Add connected line: " + line + " at position: " + position);
         switch (position) {
             case UP:
                 connectedLinesUp.add(line);
@@ -186,7 +181,6 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
     }
 
     public void selectable(){
-        System.out.println(this + " Selectable");
         selectable = true;
     }
 

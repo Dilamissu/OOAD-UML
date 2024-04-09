@@ -33,7 +33,6 @@ public class Association extends UMLLine{
         int offset = 10;
         direction = HelperMethods.getDirection(stratX, startY, endX, endY);
         shapes.addAll(getLine2Ds(direction, stratX, startY, endX, endY, offset));
-        System.out.println("Association move");
     }
 
     @Override

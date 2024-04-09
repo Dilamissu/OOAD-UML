@@ -27,7 +27,6 @@ public class Class extends UMLObject{
 
     @Override
     public void move(int deltaX, int deltaY) {
-        System.out.println("Class move from " + leftX + ", " + leftY + " to " + (leftX + deltaX) + ", " + (leftY + deltaY));
         leftX += deltaX;
         leftY += deltaY;
         

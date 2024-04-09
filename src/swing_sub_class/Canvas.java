@@ -38,6 +38,9 @@ public class Canvas extends JPanel{
     }
 
     public void addLine(UMLLine umlLine){
+        if(umlLine.getFrom() == null || umlLine.getTo() == null){
+            return;
+        }
         umlLines.add(umlLine);
         repaint();
         revalidate();

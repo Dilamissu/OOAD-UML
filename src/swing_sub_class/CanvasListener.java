@@ -119,6 +119,8 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
             if(from != null && to != null && from.equals(to)){
                 System.out.println("From and to are the same object.");
                 return;
+            }else if((from == null || to == null) && toolType != ToolType.SELECT){
+                return;
             }
         }catch(Exception ex){
             System.out.println("Error: " + ex);

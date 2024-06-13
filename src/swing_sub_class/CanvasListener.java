@@ -110,7 +110,6 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
                     CanvasObjects.select(releasedX, releasedY);
                     to = CanvasObjects.getSelectedObject();
                 } catch (Exception exception) {
-                    // TODO: handle exception
                     CanvasObjects.unselectAllShape();
                     to = null;
                     cleanXY();

@@ -121,7 +121,6 @@ public final class CanvasObjects {
     }
     
     public static void move(int deltaX, int deltaY){
-        //TODO
         assert selected.size() == 1;
         Selectable shape = selected.get(0);
         shape.move(deltaX, deltaY);
@@ -197,7 +196,6 @@ public final class CanvasObjects {
     }
     
     public static void select(Selectable shape){
-        //TODO
         selected.clear();
         selected.add(shape);
     }
@@ -242,12 +240,10 @@ public final class CanvasObjects {
     }
 
     public static void changeName(String name){
-        //TODO
         getSelectedObject().setName(name);
     }
     
     public static void paint(Graphics2D g){
-        //TODO
         if(indecateShape != null){
             g.draw(indecateShape);
         }

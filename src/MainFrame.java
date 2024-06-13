@@ -44,7 +44,6 @@ public class MainFrame extends JFrame{
                     }
                     canvasListener.changeName(newName);
                 } catch (Exception e) {
-                    // TODO: handle exception
                     System.out.println("Error: Invalid Selection.");
                 }
             }

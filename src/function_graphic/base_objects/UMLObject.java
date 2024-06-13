@@ -80,7 +80,6 @@ public abstract class UMLObject extends JComponent implements Selectable, Connec
 
     @Override
     public void connectedAt(UMLLine line, boolean isStart){
-        // TODO: calculate the start point of line then call this function
         addConnectedLine(line, HelperMethods.getRelativePositions(
                     new Point2D.Double(isStart ? line.getStartX(): line.getEndX(), isStart ? line.getStartY(): line.getEndY()),
                     new Point2D.Double(getLeftX(), getLeftY()),

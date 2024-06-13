@@ -6,17 +6,20 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JComponent;
+
 import function_graphic.base_interfaces.*;
 
-public class Group implements FuntionGraphic, Selectable{
+public class UMLGroup extends JComponent implements Selectable{
     protected int depth;
     protected int leftX, leftY, rightX, rightY;
     protected boolean selected;
     protected List<Selectable> objects = new ArrayList<Selectable>();
     protected Rectangle2D rect;
-    protected Group parentGroup = null, childGroup = null;
+    protected UMLGroup parentGroup = null, childGroup = null;
     
-    public Group(int depth){
+    public UMLGroup(int depth){
         this.depth = depth;
     }
 
@@ -36,7 +39,7 @@ public class Group implements FuntionGraphic, Selectable{
     }
     
     @Override
-    public void draw(Graphics g) {
+    public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         if(parentGroup == null){
             if(selected){
@@ -46,7 +49,7 @@ public class Group implements FuntionGraphic, Selectable{
             }
             g2.draw(rect);
         }else{
-            parentGroup.draw(g2);
+            parentGroup.paint(g2);
         }
     }
 
@@ -125,22 +128,31 @@ public class Group implements FuntionGraphic, Selectable{
         }
     }
 
-    public void group(Group parentGroup) {
+    public void group(UMLGroup parentGroup) {
         this.parentGroup = parentGroup;
         this.parentGroup.childGroup = this;
         this.parentGroup.initialXY();
     }
 
+    /**
+    * Tell if it has a parent group
+    */
     public boolean isGrouped(){
         return parentGroup != null;
     }
 
+    /**
+     * Ungroup the group, if it has a parent group, ungroup the parent group
+     * Will remove all the objects in the group
+     */
     public void ungroup() {
         if(parentGroup != null){
             parentGroup.ungroup();
         }else{
-            childGroup.parentGroup = null;
-            childGroup = null;
+            if(childGroup != null){
+                childGroup.parentGroup = null;
+                childGroup = null;
+            }
             removeAll();
             initialXY();
         }

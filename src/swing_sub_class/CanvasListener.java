@@ -7,8 +7,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import function_graphic.*;
-import function_graphic.Class;
 import function_graphic.base_interfaces.Selectable;
 import function_graphic.base_objects.*;
 import function_graphic.enums.ToolType;
@@ -32,30 +30,36 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
         this.toolType = toolType;
     }
 
+    public void group(){
+        CanvasObjects.group();
+        canvas.repaint();
+    }
+
+    public boolean isGroup(){
+        return CanvasObjects.isGroup();
+    }
+
+    public void ungroup(){
+        CanvasObjects.ungroup();
+        canvas.repaint();
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         cleanXY();
         pressedX = e.getX();
         pressedY = e.getY();
 
-        switch (toolType) {
-            case SELECT:
-                try {
-                    canvas.selectSingleShape(pressedX, pressedY);
-                } catch (Exception ex) {
-                    canvas.unselectAllShape();
-                }
-                break;
-            case CLASS:
-                canvas.addObject(new Class(pressedX, pressedY));
-                break;
-            case USECASE:
-                canvas.addObject(new UseCase(pressedX, pressedY));
-                break;
-            default:
-                System.out.println("Tool type not supported.");
-                break;
+        if(toolType.isSelect()){
+            try {
+                CanvasObjects.select(pressedX, pressedY);
+            } catch (Exception ex) {
+                CanvasObjects.unselectAllShape();
+            }
+        }else if(toolType.isObject()){
+            CanvasObjects.addObject(pressedX, pressedY, toolType.createObject(pressedX, pressedY));
         }
+        canvas.repaint();
     }
 
     @Override
@@ -65,23 +69,22 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
         pressedY = e.getY();
         draggedX = pressedX;
         draggedY = pressedY;
-        if(toolType == ToolType.SELECT){
+        if(toolType.isSelect()){
             try {
-                canvas.selectSingleShape(pressedX, pressedY);
+                CanvasObjects.select(pressedX, pressedY);
             } catch (Exception ex) {
+                CanvasObjects.setIndecateShape(new Rectangle2D.Double(pressedX, pressedY, 0, 0));
                 System.out.println("Error: " + ex);
             }
-        }else if(toolType == ToolType.ASSOCIATION || toolType == ToolType.GENERALIZATION || toolType == ToolType.COMPOSITION){
+        }else if(toolType.isLine()){
             try{
-                canvas.selectSingleShape(pressedX, pressedY);
-                from = canvas.getSelectedShape();
-                if(from.getClass() == Group.class){
+                from = CanvasObjects.select(pressedX, pressedY);
+                if(CanvasObjects.isGroup()){
                     System.out.println("From is a group.");
-                    canvas.unselectAllShape();
+                    CanvasObjects.unselectAllShape();
+                    from = null;
                     cleanXY();
                     return;
-                }else{
-                    fromPoint2d = ((UMLObject)from).selectPoint(pressedX, pressedY);
                 }
             }catch(Exception ex){
                 System.out.println("Error: " + ex);
@@ -89,7 +92,7 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
                 return;
             }
         }
-        
+        canvas.repaint();
     }
 
     @Override
@@ -101,25 +104,24 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
             cleanXY();
             return;
         }
-
-
         try{
-            if(toolType == ToolType.ASSOCIATION || toolType == ToolType.GENERALIZATION || toolType == ToolType.COMPOSITION){
-                canvas.selectSingleShape(releasedX, releasedY);
-                to = canvas.getSelectedShape();
-                if(to.getClass() == Group.class){
-                    System.out.println("To is a group.");
-                    canvas.unselectAllShape();
+            if(toolType.isLine() && from != null){
+                try {
+                    CanvasObjects.select(releasedX, releasedY);
+                    to = CanvasObjects.getSelectedObject();
+                } catch (Exception exception) {
+                    // TODO: handle exception
+                    CanvasObjects.unselectAllShape();
+                    to = null;
                     cleanXY();
+                    canvas.repaint();
                     return;
-                }else{
-                    toPoint2d = ((UMLObject)to).selectPoint(releasedX, releasedY);
                 }
             }
             if(from != null && to != null && from.equals(to)){
                 System.out.println("From and to are the same object.");
                 return;
-            }else if((from == null || to == null) && toolType != ToolType.SELECT){
+            }else if((from == null || to == null) && !toolType.isSelect()){
                 return;
             }
         }catch(Exception ex){
@@ -127,26 +129,17 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
             cleanXY();
             return;
         }
-        switch (toolType) {
-            case SELECT:
-                if(canvas.indecateShape != null){
-                    canvas.selectMultipleShapes(new Rectangle2D.Double(Math.min(pressedX, releasedX), Math.min(pressedY, releasedY), Math.abs(pressedX - releasedX), Math.abs(pressedY - releasedY)));
+        if(toolType.isSelect()){
+                if(CanvasObjects.hasIndecateShape()){
+                    CanvasObjects.select(pressedX, pressedY, releasedX,releasedY);
                 }
-                break;
-            case ASSOCIATION:
-                canvas.addLine(new Association((int)fromPoint2d.getX(), (int)fromPoint2d.getY(), (int)toPoint2d.getX(), (int)toPoint2d.getY(), (UMLObject)from, (UMLObject)to));
-                break;
-            case GENERALIZATION:
-                canvas.addLine(new Generalization((int)fromPoint2d.getX(), (int)fromPoint2d.getY(), (int)toPoint2d.getX(), (int)toPoint2d.getY(), (UMLObject)from, (UMLObject)to));
-                break;
-            case COMPOSITION:
-                canvas.addLine(new Composition((int)fromPoint2d.getX(), (int)fromPoint2d.getY(), (int)toPoint2d.getX(), (int)toPoint2d.getY(), (UMLObject)from, (UMLObject)to));
-                break;
-            default:
-                canvas.unselectAllShape();
-                break;           
+        }else if(toolType.isLine()){
+            CanvasObjects.addLine(pressedX, pressedY, releasedX, releasedY, toolType.createLine(pressedX, pressedY, releasedX, releasedY, (UMLObject)from, (UMLObject)to));
+        }else{
+            CanvasObjects.unselectAllShape();
         }
         cleanXY();
+        canvas.repaint();
     }
 
     @Override
@@ -159,35 +152,31 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        switch (toolType) {
-            case SELECT:
-                try{
-                    canvas.getSelectedShape().move(e.getX() - draggedX, e.getY() - draggedY);
-                    draggedX = e.getX();
-                    draggedY = e.getY();
-                }catch(Exception ex){
-                    canvas.setIndecateShape(new Rectangle2D.Double(Math.min(e.getX(), pressedX), Math.min(e.getY(), pressedY), Math.abs(e.getX() - pressedX), Math.abs(e.getY() - pressedY)));
-                }    
-                canvas.repaint();
-                canvas.revalidate();
-                break;
-            case ASSOCIATION:
-            case GENERALIZATION:
-            case COMPOSITION:
-                if(from != null){
-                    canvas.setIndecateShape(new Line2D.Double(pressedX, pressedY, e.getX(), e.getY()));
-                    canvas.repaint();
-                }
-                break;
-            default:
-                break;
+        if(toolType.isSelect()){
+            try{
+                CanvasObjects.move(e.getX() - draggedX, e.getY() - draggedY);
+                draggedX = e.getX();
+                draggedY = e.getY();
+            }catch(Exception ex){
+                CanvasObjects.setIndecateShape(new Rectangle2D.Double(Math.min(e.getX(), pressedX), Math.min(e.getY(), pressedY), Math.abs(e.getX() - pressedX), Math.abs(e.getY() - pressedY)));
+            }
+        }else if (toolType.isLine()) {
+            if(from != null){
+                CanvasObjects.setIndecateShape(new Line2D.Double(pressedX, pressedY, e.getX(), e.getY()));
+            }
         }
+        canvas.repaint();
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
     }
     
+    public void changeName(String name){
+        CanvasObjects.changeName(name);
+        canvas.repaint();
+    }
+
     private void cleanXY(){
         pressedX = -1;
         pressedY = -1;
@@ -195,11 +184,16 @@ public class CanvasListener implements MouseListener, MouseMotionListener{
         releasedY = -1;
         from = null;
         to = null;
-        canvas.setIndecateShape(null);
+        CanvasObjects.setIndecateShape(null);
     }
 
     private boolean isSameXY(){
         return pressedX == releasedX && pressedY == releasedY;
+    }
+
+    public void removeAll(){
+        CanvasObjects.removeAll();
+        canvas.repaint();
     }
 
 }

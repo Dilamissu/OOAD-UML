@@ -1,12 +1,15 @@
 package function_graphic.base_objects;
 
 import java.awt.Shape;
+import java.awt.geom.Point2D;
 import java.util.*;
+
+import javax.swing.JComponent;
 
 import function_graphic.base_interfaces.*;
 import helper.HelperMethods;
 
-public abstract class UMLLine implements FuntionGraphic{
+public abstract class UMLLine extends JComponent implements HavingTwoEnd<UMLObject>{
     protected int stratX, startY, endX, endY;
     protected UMLObject from, to;
     protected double ratio;
@@ -26,7 +29,20 @@ public abstract class UMLLine implements FuntionGraphic{
 
         this.ratio = HelperMethods.ratio(stratX, startY, endX, endY);
     }
-
+    @Override
+    public void setFrom(int x, int y, UMLObject from){
+        this.from = from;
+        Point2D stratP = from.selectPoint(x, y);
+        this.stratX = (int)stratP.getX();
+        this.startY = (int)stratP.getY();
+    }
+    @Override
+    public void setTo(int x, int y, UMLObject to){
+        this.to = to;
+        Point2D endP = to.selectPoint(x, y);
+        this.endX = (int)endP.getX();
+        this.endY = (int)endP.getY();
+    }
     public int getStartX() {
         return stratX;
     }

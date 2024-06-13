@@ -3,14 +3,18 @@ package function_graphic.base_objects;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.*;
+
+import javax.swing.JComponent;
+
 import function_graphic.base_interfaces.*;
 
 import function_graphic.enums.Directions;
+import helper.HelperMethods;
 
-public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic{
+public abstract class UMLObject extends JComponent implements Selectable, Connectable<UMLLine>{
     protected boolean selected, grouped, selectable = true;
     // leftX, leftY is the coordinate of the left top corner of the object
-    protected Group group;
+    protected UMLGroup group;
     protected int leftX, leftY, width, height, depth;
     String name = "";
     protected List<UMLLine> connectedLinesUp = new ArrayList<UMLLine>();
@@ -74,6 +78,15 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
         rightRect = new Rectangle(leftX + width, leftY + height/2 - rectOffset, 2*rectOffset, 2*rectOffset);
     }
 
+    @Override
+    public void connectedAt(UMLLine line, boolean isStart){
+        // TODO: calculate the start point of line then call this function
+        addConnectedLine(line, HelperMethods.getRelativePositions(
+                    new Point2D.Double(isStart ? line.getStartX(): line.getEndX(), isStart ? line.getStartY(): line.getEndY()),
+                    new Point2D.Double(getLeftX(), getLeftY()),
+                    getWidth(), getHeight())
+                );
+    }
 
     public void select(){
         selected = true;
@@ -168,7 +181,7 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
         return grouped;
     }
 
-    public Group getGroup(){
+    public UMLGroup getGroup(){
         return group;
     }
 
@@ -230,7 +243,7 @@ public abstract class UMLObject implements Selectable, Groupable, FuntionGraphic
         }
     }
     
-    public void group(Group group){
+    public void group(UMLGroup group){
         this.group = group;
         grouped = true;
     }

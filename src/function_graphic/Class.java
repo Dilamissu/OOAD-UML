@@ -36,7 +36,7 @@ public class Class extends UMLObject{
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.gray);
         g2.fill(rect);

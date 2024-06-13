@@ -1,7 +1,5 @@
 import javax.swing.*;
 
-import function_graphic.base_objects.Group;
-import function_graphic.base_objects.UMLObject;
 import function_graphic.enums.ToolType;
 import helper.HelperMethods;
 import swing_sub_class.*;
@@ -29,7 +27,7 @@ public class MainFrame extends JFrame{
 
         JMenuItem newItem = new JMenuItem("New");
         newItem.addActionListener(e -> {
-            canvas.removeAll();
+            canvasListener.removeAll();
         });
 
         fileMenuButton.add(newItem);
@@ -39,46 +37,32 @@ public class MainFrame extends JFrame{
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 String newName = "";
-                if(canvas.getSelectedShape() instanceof UMLObject){
-                    newName = JOptionPane.showInputDialog(getParent(),  "Please input new component name", ((UMLObject)canvas.getSelectedShape()).getName());
+                try {
+                    newName = JOptionPane.showInputDialog(getParent(),  "Please input new component name", CanvasObjects.getSelectedObject().getName());
                     if(newName == null){
                         return;
                     }
-                    ((UMLObject)canvas.getSelectedShape()).setName(newName);
-                    canvas.repaint();
+                    canvasListener.changeName(newName);
+                } catch (Exception e) {
+                    // TODO: handle exception
+                    System.out.println("Error: Invalid Selection.");
                 }
             }
         });
 
         JMenuItem groupItem = new JMenuItem("Group");
         groupItem.addActionListener(e -> {
-            canvas.groupSelectedShapes();
+            canvasListener.group();
         });
 
         JMenuItem ungroupItem = new JMenuItem("Ungroup");
         ungroupItem.addActionListener(e -> {
-            if(canvas.getSelectedShape() instanceof Group){
-                canvas.ungroupSelectedGroup();
-            }
+            canvasListener.ungroup();
         });
 
         editMenuButton.add(groupItem);
         editMenuButton.add(ungroupItem);
         editMenuButton.add(changeObjectNameItem);
-        // JButton cleanButton = HelperMethods.createButton("Clean",false);
-        // cleanButton.addActionListener(e -> {
-        //     canvas.removeAll();
-        // });
-        // JButton groupButton = HelperMethods.createButton("Group",false);
-        // groupButton.addActionListener(e -> {
-        //     canvas.groupSelectedShapes();
-        // });
-        // JButton ungroupButton = HelperMethods.createButton("Ungroup",false);
-        // ungroupButton.addActionListener(e -> {
-        //     if(canvas.getSelectedShape() instanceof Group){
-        //         canvas.ungroupSelectedGroup();
-        //     }
-        // });
 
         mainToolBar.add(fileMenuButton);
         mainToolBar.add(Box.createRigidArea(new Dimension(5, 0)));
